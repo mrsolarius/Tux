@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Meilleurs Scores</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <h1>Meilleurs Scores</h1>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Joueur</th>
+                    <th>Date</th>
+                    <th>Mot</th>
+                    <th>Niveau</th>
+                    <th>Temps</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody id="scores">
+                <tr>
+                    <td>Krogoth</td>
+                    <td>2019-11-02</td>
+                    <td>Sérendipité</td>
+                    <td>5</td>
+                    <td>24</td>        
+                </tr>
+                <tr>
+                    <td>NGlade</td>
+                    <td>2020-02-20</td>
+                    <td>Etudes</td>
+                    <td>3</td>
+                    <td>14</td>        
+                </tr>
+                <tr>
+                    <td>KSpinicci</td>
+                    <td>2021-09-14</td>
+                    <td>Programme</td>
+                    <td>4</td>
+                    <td>31</td>        
+                </tr>
+                <tr>
+                    <td>NGlade</td>
+                    <td>2020-03-17</td>
+                    <td>Confinement</td>
+                    <td>5</td>
+                    <td>26</td>        
+                </tr>
+            </tbody>
+        </table>
+    <script type="text/javascript">
+          // <![CDATA[
+        const data = document.getElementById("scores").getElementsByTagName("tr");
+        for (let i = 0; i<data.length;i++) {
+            const niveau = data[i].getElementsByTagName("td")[3].textContent;
+            const temps = data[i].getElementsByTagName("td")[4].textContent;
+            const tag = document.createElement("td")
+            const text = document.createTextNode((niveau*100/temps).toPrecision(3))
+            tag.appendChild(text)
+            data[i].appendChild(tag)
+        }
+    //]]>
+     </script> 
+    </body>
+    
+</html>
