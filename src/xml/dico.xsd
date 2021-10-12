@@ -7,6 +7,8 @@ and open the template in the editor.
 
 <xs:schema version="1.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.ujf-grenoble.fr/l3miage/dico"
+           xmlns="http://www.ujf-grenoble.fr/l3miage/dico"
            elementFormDefault="qualified">
     
     
