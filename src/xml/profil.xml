@@ -6,7 +6,7 @@
     Description:
         Purpose of the document follows.
 -->
-<profil xmlns="http://myGame/tux" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://myGame/tux ./profil.xsd">
+<profil xmlns="http://myGame/tux" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://myGame/tux ../xsd/profil.xsd">
     <nom>Alban</nom>
     <avatar>conan.jpg</avatar>
     <anniversaire>2006-05-08</anniversaire>

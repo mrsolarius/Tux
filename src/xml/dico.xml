@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<dictionnaire xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.ujf-grenoble.fr/l3miage/dico" xsi:schemaLocation="http://www.ujf-grenoble.fr/l3miage/dico ./dico.xsd">
+<dictionnaire xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://myGame/tux" xsi:schemaLocation="http://myGame/tux ../xsd/dico.xsd">
     <mot niveau="1">eau</mot>
 
     <mot niveau="2">chambre</mot>
