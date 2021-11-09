@@ -9,11 +9,30 @@
     <mot niveau="4">oxygène</mot>
 
     <mot niveau="5">boustrophédon</mot>
-
+    
     <mot niveau="5">pyroïde</mot>
 
     <mot niveau="5">holographe</mot>
 
     <mot niveau="5">vitupération</mot>
+    
+    <mot niveau="4">Kaléidoscope</mot>
+    
+    <mot niveau="3">Ordiphone</mot>
 
+    <mot niveau="2">Système</mot>
+    
+    <mot niveau="1">Patate</mot>
+    
+    <mot niveau="1">Cable</mot>
+    
+    <mot niveau="2">Fils</mot>
+    
+    <mot niveau="2">Enfant</mot>
+
+    <mot niveau="2">Montagne</mot>
+    
+    <mot niveau="3">Butineur</mot>
+    
+    <mot niveau="2">Processus</mot>
 </dictionnaire>
