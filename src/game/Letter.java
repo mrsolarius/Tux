@@ -20,7 +20,10 @@ public class Letter extends EnvNode{
         setX(x);// positionnement au milieu de la largeur de la room
         setY(getScale() * 1.1); // positionnement en hauteur basé sur la taille de Tux
         setZ(z); // positionnement au milieu de la profondeur de la room
-        setTexture("/models/letter/"+l+".png");
+        if(l>='a'&& l<='z')
+            setTexture("/models/letter/"+l+".png");
+        else
+            setTexture("/models/cube/cube.png");
         setModel("/models/letter/cube.obj");
     }
 }
