@@ -17,21 +17,21 @@ import org.xml.sax.SAXException;
 public class LanceurDeJeu {
     
     public static void main(String[] args) {
+        Dico jeSuisUnePatate = new Dico("xml/dico.xml");
+        try {
+            jeSuisUnePatate.lireDictionnaireDOM("src/xml/", "dico.xml");
+        } catch (SAXException ex) {
+            Logger.getLogger(LanceurDeJeu.class.getName()).log(Level.parse("Ici"+ Level.SEVERE), null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(LanceurDeJeu.class.getName()).log(Level.parse("là"+ Level.SEVERE), null, ex);
+        }
+        System.out.println(jeSuisUnePatate.toString());
+
         // Declare un Jeu
         Game g;
         //Instancie un nouveau jeu
         g = new Game();
         //Execute le jeu
         g.execute();
-        
-        Dico jeSuisUnePatate = new Dico("xml/dico.xml");
-        try {
-            jeSuisUnePatate.lireDictionnaireDOM("./xml/", "dico.xml");
-        } catch (SAXException ex) {
-            Logger.getLogger(LanceurDeJeu.class.getName()).log("Ici"+Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(LanceurDeJeu.class.getName()).log("là"+Level.SEVERE, null, ex);
-        }
-        System.out.println(jeSuisUnePatate.toString());
     }
 }

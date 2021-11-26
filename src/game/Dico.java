@@ -105,27 +105,28 @@ public class Dico {
         Document doc = parser.getDocument();
         // récupère la liste des éléments nommés tr:pos
         NodeList posList = doc.getChildNodes();
-        NodeList elements = posList.item(1).getChildNodes();
-        
+        NodeList elements = posList.item(0).getChildNodes();
+
         for (int i = 0; i < elements.getLength();i++) {
             Node node = elements.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 char rapport = ((Element) node).getAttribute("niveau").charAt(0);
+                System.out.println(rapport);
                 switch(rapport){
                     case '1':
-                        listeNiveau1.add(((Element) node).getNodeValue());
+                        listeNiveau1.add(node.getTextContent());
                         break;
                     case '2':
-                        listeNiveau2.add(((Element) node).getNodeValue());
+                        listeNiveau2.add(node.getTextContent());
                         break;
                     case '3':
-                        listeNiveau3.add(((Element) node).getNodeValue());
+                        listeNiveau3.add(node.getTextContent());
                         break;
                     case '4':
-                        listeNiveau1.add(((Element) node).getNodeValue());
+                        listeNiveau4.add(node.getTextContent());
                         break;
                     case '5':
-                        listeNiveau1.add(((Element) node).getNodeValue());
+                        listeNiveau5.add(node.getTextContent());
                         break;
                 }
             }
