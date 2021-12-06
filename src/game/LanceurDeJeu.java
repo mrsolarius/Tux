@@ -6,6 +6,7 @@
 package game;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.xml.sax.SAXException;
@@ -15,7 +16,9 @@ import org.xml.sax.SAXException;
  * @author zaettal
  */
 public class LanceurDeJeu {
-    
+
+    private ArrayList<Letter> lettres;
+
     public static void main(String[] args) {
         Dico jeSuisUnePatate = new Dico("xml/dico.xml");
         try {
@@ -28,10 +31,10 @@ public class LanceurDeJeu {
         System.out.println(jeSuisUnePatate.toString());
 
         // Declare un Jeu
-        Game g;
+        Jeu jeu;
         //Instancie un nouveau jeu
-        g = new Game();
+        jeu = new JeuDevineLeMotOrdre();
         //Execute le jeu
-        g.execute();
+        jeu.execute();
     }
 }

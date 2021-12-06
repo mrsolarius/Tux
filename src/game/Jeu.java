@@ -115,16 +115,32 @@ public abstract class Jeu {
         terminePartie(partie);
     }
     
-    public abstract void démarrePartie(Partie partie);
+    protected abstract void démarrePartie(Partie partie);
     
-    public abstract void appliqueRegles(Partie partie);
+    protected abstract void appliqueRegles(Partie partie);
     
-    public abstract void terminePartie(Partie partie);
+    protected abstract void terminePartie(Partie partie);
 
-    //replace every accent character by its non-accented equivalent
+    protected double distance(Letter letter) {
+        return Math.sqrt(Math.pow(getTux().getX()-letter.getX(),2)+Math.pow(getTux().getY()-letter.getY(),2));
+    }
+
+    protected Boolean collision(Letter letter) {
+        return distance(letter)<=getTux().getScale();
+    }
+
+    //Remplacer les caractères accentués par leur équivalent sans accent
     public String normalize(String str) {
         String normalized = Normalizer.normalize(str, Normalizer.Form.NFD);
         Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
         return pattern.matcher(normalized).replaceAll("");
+    }
+
+    public Tux getTux() {
+        return tux;
+    }
+
+    public ArrayList<Letter> getLettres() {
+        return lettres;
     }
 }
