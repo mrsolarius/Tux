@@ -6,8 +6,12 @@
 package game;
 
 import com.sun.org.apache.xerces.internal.parsers.DOMParser;
+
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.io.IOException;
+import java.util.regex.Pattern;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -37,19 +41,21 @@ public class Dico {
     }
     
     private String getMotDepuisListe(ArrayList<String> list){
-        Random r = new Random(0,listeNiveau1.size()-1);
-        return listeNiveau1.get(Math.round((float)r.get()));  
+        Random r = new Random(0,list.size()-1);
+        return list.get(Math.round((float)r.get()));
     }
     
     private int vérifieNiveau(int niveau){
-        int val = 1;
+        int val;
         if(niveau >= 1 && niveau<=5) {
             val=niveau;
+        }else{
+            val=1;
         }
         return val;
     }
     
-   public String getMotDepuisListeNiveau(int niveau) throws Exception{
+   public String getMotDepuisListeNiveau(int niveau){
        String word = "";
        Random r;
        switch(vérifieNiveau(niveau)){

@@ -6,7 +6,14 @@
 package game;
 
 import env3d.Env;
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -18,6 +25,7 @@ public abstract class Jeu {
     private Profil profil;
     private Tux tux;
     private ArrayList<Letter> lettres;
+    private Dico dico;
     
     public Jeu() {
         // Crée un nouvel environnement
@@ -34,9 +42,18 @@ public abstract class Jeu {
 
         // Instancie un profil par défaut
         profil = new Profil();
-        
+
         // Instancie des lettres
         lettres = new ArrayList<Letter>();
+
+        dico = new Dico("xml/dico.xml");
+        try {
+            dico.lireDictionnaireDOM("src/xml/", "dico.xml");
+        } catch (SAXException ex) {
+            Logger.getLogger(LanceurDeJeu.class.getName()).log(Level.parse("Ici"+ Level.SEVERE), null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(LanceurDeJeu.class.getName()).log(Level.parse("là"+ Level.SEVERE), null, ex);
+        }
     }
     
     public void execute() {
@@ -47,25 +64,28 @@ public abstract class Jeu {
         // Détruit l'environnement et provoque la sortie du programme 
         env.exit();
     }
-    
+
+    private void loadWord(){
+        String word = dico.getMotDepuisListeNiveau(4);
+        int x = 10;
+        for(char c : normalize(word.toLowerCase()).toCharArray()){
+            lettres.add(new Letter(c,x,50));
+            x=x+10;
+        }
+        for(Letter let : lettres){
+            env.addObject(let);
+        }
+    }
+
     public void joue(Partie partie) {
         // TEMPORAIRE : on règle la room de l'environnement. Ceci sera à enlever lorsque vous ajouterez les menus.
         env.setRoom(room);
         // Instancie un Tux
         tux = new Tux(room,env);
-        Letter a = new Letter('a',10,50);
-        Letter l = new Letter('l',20,50);
-        Letter e = new Letter('e',30,50);
-        Letter d = new Letter('d',40,50);
-        lettres.add(a);
-        lettres.add(l);
-        lettres.add(e);
-        lettres.add(d);
-        
+
+        loadWord();
+
         env.addObject(tux);
-        for(Letter let : lettres){
-            env.addObject(let);
-        }
          
         // Ici, on peut initialiser des valeurs pour une nouvelle partie
         démarrePartie(partie);
@@ -100,4 +120,11 @@ public abstract class Jeu {
     public abstract void appliqueRegles(Partie partie);
     
     public abstract void terminePartie(Partie partie);
+
+    //replace every accent character by its non-accented equivalent
+    public String normalize(String str) {
+        String normalized = Normalizer.normalize(str, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        return pattern.matcher(normalized).replaceAll("");
+    }
 }
