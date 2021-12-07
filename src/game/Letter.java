@@ -5,25 +5,62 @@
  */
 package game;
 
+import com.jme3.bounding.BoundingVolume;
+import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.collision.Collidable;
+import com.jme3.collision.CollisionResults;
+import com.jme3.collision.UnsupportedCollisionException;
+import com.jme3.material.Material;
+import com.jme3.scene.SceneGraphVisitor;
+import com.jme3.scene.Spatial;
 import env3d.advanced.EnvNode;
+
+import java.util.Queue;
+
+import static env3d.GameObjectAdapter.assetManager;
 
 /**
  *
  * @author zaettal
  */
-public class Letter extends EnvNode{
+public class Letter {
     private char letter;
+    private Spatial cube;
     
-    public Letter(char l, double x, double z){
+    public Letter(Jeu context, char l, float x, float z){
         this.letter = l;
-        setScale(4);
-        setX(x);// positionnement au milieu de la largeur de la room
-        setY(getScale() * 1.1); // positionnement en hauteur basé sur la taille de Tux
-        setZ(z); // positionnement au milieu de la profondeur de la room
+        cube = assetManager.loadModel("models/cube/cube.obj");
+        Material mat_cube = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         if(l>='a'&& l<='z')
-            setTexture("/models/letter/"+l+".png");
+            mat_cube.setTexture("ColorMap",assetManager.loadTexture("/models/letter/"+l+".png"));
         else
-            setTexture("/models/cube/cube.png");
-        setModel("/models/letter/cube.obj");
+            mat_cube.setTexture("ColorMap",assetManager.loadTexture("/models/cube/cube.png"));
+        cube.setMaterial(mat_cube);
+        cube.setLocalTranslation(x,40,z);
+        RigidBodyControl cubeBody = new RigidBodyControl( 0.02f);
+        cube.setLocalScale(2f,2f,2f);
+        cube.addControl(cubeBody);
+        context.getRootNode().attachChild(cube);
+        context.getBulletAppState().getPhysicsSpace().add(cubeBody);
+    }
+
+    public char getLetter(){
+        return letter;
+    }
+
+    public float getX(){
+        return cube.getLocalTranslation().getX();
+    }
+
+    public float getZ(){
+        return cube.getLocalTranslation().getZ();
+    }
+
+    public float getY(){
+        return cube.getLocalTranslation().getY();
+    }
+
+    public Spatial getCube() {
+        return cube;
     }
 }

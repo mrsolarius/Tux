@@ -14,7 +14,7 @@ public class Game extends Jeu{
     public Game() {
         super();
     }
-    
+
     @Override
     public void démarrePartie(Partie partie) {
         

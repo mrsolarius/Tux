@@ -26,5 +26,4 @@ public class JeuDevineLeMotOrdre extends Jeu {
     private boolean tuxTrouveLettre() {
         return super.collision(super.getLettres().get(super.getLettres().size()-nbLettresRestantes-1));
     }
-
 }
