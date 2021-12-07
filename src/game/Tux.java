@@ -5,6 +5,9 @@
  */
 package game;
 
+import com.jme3.material.Material;
+import com.jme3.scene.Spatial;
+import com.jme3.shader.VarType;
 import env3d.Env;
 import env3d.advanced.EnvNode;
 import org.lwjgl.input.Keyboard;
@@ -21,7 +24,7 @@ public class Tux extends EnvNode {
     public Tux(Room room, Env env) {
         this.room = room;
         this.env = env;
-        setScale(4.0 * 4);
+        setScale(4.0 * 2);
         setX(room.getWidth() / 2);// positionnement au milieu de la largeur de la room
         setY(getScale() * 1.1); // positionnement en hauteur basé sur la taille de Tux
         setZ(room.getDepth() / 2); // positionnement au milieu de la profondeur de la room

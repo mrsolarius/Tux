@@ -5,12 +5,15 @@
  */
 package game;
 
+import com.jme3.system.AppSettings;
 import env3d.Env;
 import org.xml.sax.SAXException;
 
+import java.awt.*;
 import java.io.IOException;
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -32,13 +35,20 @@ public abstract class Jeu {
         env = new Env();
 
         // Instancie une Room
-        room = new Room("/textures/stone.png","/textures/doty_happy.png","/textures/stone.png","/textures/stone.png");
+        room = new Room("/textures/stone_granite.png","/textures/stonebrick.png","/textures/stonebrick.png","/textures/stonebrick.png");
 
         // Règle la camera
-        env.setCameraXYZ(50, 60, 175);
-        env.setCameraPitch(-20);
+        env.setCameraXYZ(room.getWidth()/2.0, room.getHeight()/1.6, room.getDepth()*1.25);
+        env.setDefaultControl(true);
+        env.setCameraPitch(-45);
         // Désactive les contrôles par défaut
         env.setDefaultControl(false);
+
+        GraphicsDevice[] ge = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
+        //env.setResolution(ge[0].getDisplayMode().getHeight(), ge[0].getDisplayMode().getHeight()/2,32);
+        env.setResolution(1920, 1080,32);
+        env.setDisplayStr(ge[0].getIDstring());
+
 
         // Instancie un profil par défaut
         profil = new Profil();
@@ -59,7 +69,7 @@ public abstract class Jeu {
     public void execute() {
         // pour l'instant, nous nous contentons d'appeler la méthode joue comme cela
         // et nous créons une partie vide, juste pour que cela fonctionne
-        joue(new Partie());
+        joue(new Partie((new Date().toString()),"Joueur",0));
          
         // Détruit l'environnement et provoque la sortie du programme 
         env.exit();

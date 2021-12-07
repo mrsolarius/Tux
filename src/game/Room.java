@@ -10,9 +10,9 @@ package game;
  * @author zaettal
  */
 public class Room {
-    private int depth = 100;
-    private int height = 60;
-    private int width = 100;
+    private int depth = 200;
+    private int height = 200;
+    private int width = 200;
     private String textureBottom;
     private String textureNorth;
     private String textureEast;
