@@ -5,13 +5,22 @@
  */
 package game;
 
+import com.jme3.animation.AnimChannel;
+import com.jme3.animation.AnimControl;
+import com.jme3.animation.AnimEventListener;
+import com.jme3.bullet.collision.PhysicsCollisionEvent;
+import com.jme3.bullet.collision.PhysicsCollisionListener;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
+import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.control.BetterCharacterControl;
 import com.jme3.bullet.control.CharacterControl;
+import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Mesh;
 import com.jme3.scene.Spatial;
 import com.jme3.shader.VarType;
 import env3d.Env;
@@ -24,7 +33,7 @@ import static env3d.GameObjectAdapter.assetManager;
  *
  * @author zaettal
  */
-public class Tux implements ActionListener {
+public class Tux implements ActionListener, PhysicsCollisionListener {
     private Jeu context;
     private CharacterControl tux;
     private Spatial tuxModel;
@@ -42,10 +51,13 @@ public class Tux implements ActionListener {
         mat_tux.setTexture("ColorMap",assetManager.loadTexture("models/tux/tux.png"));
         tuxModel.setMaterial(mat_tux);
         tuxModel.setLocalScale(1.5f);
-        tuxModel.setLocalTranslation(0, 100, 0);
+        tuxModel.setLocalTranslation(50, 100, 50);
 
-        CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(tuxModel.getLocalScale().getX(), tuxModel.getLocalScale().length()-2, 1);
-        tux = new CharacterControl(capsuleShape, 5);
+        Spatial tux2 = tuxModel.clone();
+        tux2.setLocalScale(tuxModel.getLocalScale().y*1.6f);
+        tuxModel.setName("Tux");
+        CollisionShape tuxCollision = CollisionShapeFactory.createDynamicMeshShape(tux2);
+        tux = new CharacterControl(tuxCollision,0.01f);
         tux.setJumpSpeed(20);
         tux.setFallSpeed(30);
 
@@ -54,9 +66,10 @@ public class Tux implements ActionListener {
         context.getRootNode().attachChild(tuxModel);
         context.getBulletAppState().getPhysicsSpace().add(tux);
 
-        tux.setGravity(30f);
-        tux.setPhysicsLocation(new Vector3f(50, 10, 50));
+        tux.setGravity(1f);
+        tux.setPhysicsLocation(new Vector3f(50, 100, 50));
         setUpKeys();
+        setUpPhysicsListeners();
     }
     private void setUpKeys() {
         context.getInputManager().addMapping("Left", new KeyTrigger(KeyInput.KEY_Q));
@@ -73,6 +86,10 @@ public class Tux implements ActionListener {
         context.getInputManager().addListener(this, "Up");
         context.getInputManager().addListener(this, "Down");
         context.getInputManager().addListener(this, "Jump");
+    }
+
+    private void setUpPhysicsListeners() {
+        tux.getPhysicsSpace().addCollisionListener(this);
     }
 
     @Override
@@ -149,5 +166,10 @@ public class Tux implements ActionListener {
 
     public float getScale(){
         return tuxModel.getLocalScale().getY();
+    }
+
+    @Override
+    public void collision(PhysicsCollisionEvent physicsCollisionEvent) {
+        System.out.println("collision: A:" + physicsCollisionEvent.getNodeA().getName() + " B:" + physicsCollisionEvent.getNodeB().getName());
     }
 }

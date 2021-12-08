@@ -26,9 +26,12 @@ import static env3d.GameObjectAdapter.assetManager;
 public class Letter {
     private char letter;
     private Spatial cube;
+    private String id;
+    private static int count = 0;
     
     public Letter(Jeu context, char l, float x, float z){
         this.letter = l;
+        this.id = "L"+l+count;
         cube = assetManager.loadModel("models/cube/cube.obj");
         Material mat_cube = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         if(l>='a'&& l<='z')
@@ -39,9 +42,11 @@ public class Letter {
         cube.setLocalTranslation(x,40,z);
         RigidBodyControl cubeBody = new RigidBodyControl( 0.02f);
         cube.setLocalScale(2f,2f,2f);
+        cube.setName(this.id);
         cube.addControl(cubeBody);
         context.getRootNode().attachChild(cube);
         context.getBulletAppState().getPhysicsSpace().add(cubeBody);
+        count++;
     }
 
     public char getLetter(){

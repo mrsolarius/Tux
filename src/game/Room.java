@@ -14,6 +14,7 @@ import com.jme3.collision.CollisionResults;
 import com.jme3.collision.UnsupportedCollisionException;
 import com.jme3.material.Material;
 import com.jme3.math.Matrix3f;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.SceneGraphVisitor;
 import com.jme3.scene.Spatial;
@@ -44,48 +45,48 @@ public class Room {
         this.depth = depth;
         this.height = height;
         //definition du sol
-        Box boxFloor = new Box(width, 1, depth);
+        Box boxFloor = new Box(Vector3f.ZERO,width, 10, depth);
         floor = new Geometry("Floor", boxFloor);
-        floor.setLocalTranslation(0, 0, 0);
+        floor.setLocalTranslation(0, -boxFloor.yExtent, 0);
         floor.setMaterial(generateMaterial(textureBottom));
-        CollisionShape sceneShapeFloor = CollisionShapeFactory.createMeshShape(floor);
+        CollisionShape sceneShapeFloor = CollisionShapeFactory.createBoxShape(floor);
         floor.addControl(new RigidBodyControl(sceneShapeFloor, 0));
         context.getRootNode().attachChild(floor);
         context.getBulletAppState().getPhysicsSpace().add(floor);
 
         //definition des murs
-        Box boxNS = new Box(width, height, 1);
+        Box boxNS = new Box(width, height, 10);
         Box boxEW = new Box(1, height, width);
 
         wallNorth = new Geometry("WallNorth", boxNS);
         wallNorth.setLocalTranslation(0, height, -depth);
         wallNorth.setMaterial(generateMaterial(textureNorth));
-        CollisionShape sceneShapeNorth = CollisionShapeFactory.createMeshShape(wallNorth);
+        CollisionShape sceneShapeNorth = CollisionShapeFactory.createBoxShape(wallNorth);
         wallNorth.addControl(new RigidBodyControl(sceneShapeNorth, 0));
         context.getRootNode().attachChild(wallNorth);
         context.getBulletAppState().getPhysicsSpace().add(wallNorth);
 
         wallEast = new Geometry("WallEast", boxEW);
-        wallEast.setLocalTranslation(width, height, 0);
+        wallEast.setLocalTranslation(width, height, 10);
         wallEast.setMaterial(generateMaterial(textureEast));
-        CollisionShape sceneShapeEast = CollisionShapeFactory.createMeshShape(wallEast);
+        CollisionShape sceneShapeEast = CollisionShapeFactory.createBoxShape(wallEast);
         wallEast.addControl(new RigidBodyControl(sceneShapeEast, 0));
         context.getRootNode().attachChild(wallEast);
         context.getBulletAppState().getPhysicsSpace().add(wallEast);
 
 
         wallSouth = new Geometry("WallSouth", boxNS);
-        wallSouth.setLocalTranslation(0, height, depth);
+        wallSouth.setLocalTranslation(10, height, depth);
         wallSouth.setMaterial(generateMaterial(textureSouth));
-        CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(wallSouth);
+        CollisionShape sceneShape = CollisionShapeFactory.createBoxShape(wallSouth);
         wallSouth.addControl(new RigidBodyControl(sceneShape, 0));
         context.getRootNode().attachChild(wallSouth);
         context.getBulletAppState().getPhysicsSpace().add(wallSouth);
 
         wallWest = new Geometry("WallWest", boxEW);
-        wallWest.setLocalTranslation(-width, height, 0);
+        wallWest.setLocalTranslation(-width, height, 10);
         wallWest.setMaterial(generateMaterial(textureWest));
-        CollisionShape sceneShapeWest = CollisionShapeFactory.createMeshShape(wallWest);
+        CollisionShape sceneShapeWest = CollisionShapeFactory.createBoxShape(wallWest);
         wallWest.addControl(new RigidBodyControl(sceneShapeWest, 0));
         context.getRootNode().attachChild(wallWest);
         context.getBulletAppState().getPhysicsSpace().add(wallWest);

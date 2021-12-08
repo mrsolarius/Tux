@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import static env3d.GameObjectAdapter.assetManager;
+import static java.lang.Thread.sleep;
 
 /**
  *
@@ -44,6 +45,8 @@ public abstract class Jeu extends Env{
     private Tux tux;
     private ArrayList<Letter> lettres;
     private Dico dico;
+    protected float speed = 1f;
+    protected boolean paused = false;
 
     public Jeu() {
         this.rootNode.detachAllChildren();
@@ -53,10 +56,9 @@ public abstract class Jeu extends Env{
         stateManager.attach(bulletAppState);
 
         // Instancie une Room
-        room = new Room(this,200,200,200,"/textures/stone_granite.png","/textures/stonebrick.png","/textures/stonebrick.png","/textures/stonebrick.png","/textures/stonebrick.png");
         flyCam.setEnabled(true);
         // Règle la camera
-        setCameraXYZ(room.getWidth()/2.0, room.getHeight()/1.6, room.getDepth()-2);
+        setCameraXYZ(50, 30, 150);
         //setDefaultControl(true);
         setCameraPitch(-45);
         // Désactive les contrôles par défaut
@@ -87,7 +89,11 @@ public abstract class Jeu extends Env{
     public void execute() {
         // pour l'instant, nous nous contentons d'appeler la méthode joue comme cela
         // et nous créons une partie vide, juste pour que cela fonctionne
-        joue(new Partie((new Date().toString()),"Joueur",0));
+        try {
+            joue(new Partie((new Date().toString()),"Joueur",0));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         // Détruit l'environnement et provoque la sortie du programme
         exit();
@@ -102,15 +108,18 @@ public abstract class Jeu extends Env{
         }
     }
 
-    public void joue(Partie partie) {
+    public void joue(Partie partie) throws InterruptedException {
         // TEMPORAIRE : on règle la room de l'environnement. Ceci sera à enlever lorsque vous ajouterez les menus.
         //setRoom(room);
         // Instancie un Tux
+        bulletAppState.startPhysics();
+
+        room = new Room(this,200,200,200,"/textures/stone_granite.png","/textures/stonebrick.png","/textures/stonebrick.png","/textures/stonebrick.png","/textures/stonebrick.png");
+
         tux = new Tux(this);
 
+        sleep(1000);
         loadWord();
-
-        addObject(tux);
          
         // Ici, on peut initialiser des valeurs pour une nouvelle partie
         démarrePartie(partie);
@@ -126,12 +135,6 @@ public abstract class Jeu extends Env{
             if (getKey() == 1) {
                 finished = true;
             }
-            // Contrôles des déplacements de Tux (gauche, droite, ...)
-            // ... (sera complété plus tard) ...
-            // Ici, on applique les regles
-            appliqueRegles(partie);
- 
-            // Fait avancer le moteur de jeu (mise à jour de l'affichage, de l'écoute des événements clavier...)
             advanceOneFrame();
         }
  
