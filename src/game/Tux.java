@@ -39,7 +39,7 @@ import static env3d.GameObjectAdapter.assetManager;
  *
  * @author zaettal
  */
-public class Tux implements ActionListener, PhysicsCollisionListener {
+public class Tux implements ActionListener {
     private Jeu context;
     private Node tuxNode;
     private BetterCharacterControl tux;
@@ -82,7 +82,6 @@ public class Tux implements ActionListener, PhysicsCollisionListener {
 
         // On ajoute le CharacterControl au Node
         tuxNode.addControl(tux);
-        context.getBulletAppState().setDebugEnabled(true);
         context.getBulletAppState().getPhysicsSpace().add(tuxNode);
         context.getRootNode().attachChild(tuxNode);
 
@@ -90,15 +89,14 @@ public class Tux implements ActionListener, PhysicsCollisionListener {
         chaseCam = new ChaseCamera(context.getCamera(), tuxModel, context.getInputManager());
         chaseCam.setDragToRotate(false);
         chaseCam.setMinDistance(5f);
-        chaseCam.setMaxDistance(80f);
-        chaseCam.setDefaultDistance(20f);
+        chaseCam.setMaxDistance(100f);
+        chaseCam.setDefaultDistance(40f);
         chaseCam.setDefaultHorizontalRotation(0f);
         chaseCam.setMaxVerticalRotation(0.6f);
         chaseCam.setMinVerticalRotation(0);
         chaseCam.setSmoothMotion(true);
 
         setUpKeys();
-        setUpPhysicsListeners();
     }
     private void setUpKeys() {
         context.getInputManager().addMapping("Left", new KeyTrigger(KeyInput.KEY_Q));
@@ -106,24 +104,22 @@ public class Tux implements ActionListener, PhysicsCollisionListener {
         context.getInputManager().addMapping("Up", new KeyTrigger(KeyInput.KEY_Z));
         context.getInputManager().addMapping("Down", new KeyTrigger(KeyInput.KEY_S));
         context.getInputManager().addMapping("Jump", new KeyTrigger(KeyInput.KEY_SPACE));
-        context.getInputManager().addMapping("Left", new KeyTrigger(KeyInput.KEY_LEFT));
-        context.getInputManager().addMapping("Right", new KeyTrigger(KeyInput.KEY_RIGHT));
-        context.getInputManager().addMapping("Up", new KeyTrigger(KeyInput.KEY_UP));
-        context.getInputManager().addMapping("Down", new KeyTrigger(KeyInput.KEY_DOWN));
-        context.getInputManager().addMapping("Jump", new KeyTrigger(KeyInput.KEY_NUMPAD0));
+        context.getInputManager().addMapping("Run", new KeyTrigger(KeyInput.KEY_LSHIFT));
         context.getInputManager().addListener(this, "Left");
         context.getInputManager().addListener(this, "Right");
         context.getInputManager().addListener(this, "Up");
         context.getInputManager().addListener(this, "Down");
         context.getInputManager().addListener(this, "Jump");
+        context.getInputManager().addListener(this, "Run");
     }
 
-    private void setUpPhysicsListeners() {
+    /*private void setUpPhysicsListeners() {
         tux.getPhysicsSpace().addCollisionListener(this);
-    }
+    }*/
 
     @Override
     public void onAction(String binding, boolean isPressed, float tpf) {
+        System.out.println("coorodnates : " + tuxNode.getLocalTranslation().x + " " + tuxNode.getLocalTranslation().y + " " + tuxNode.getLocalTranslation().z);
         if (binding.equals("Left")) {
             left = isPressed;
         } else if (binding.equals("Right")) {
@@ -135,6 +131,12 @@ public class Tux implements ActionListener, PhysicsCollisionListener {
         } else if (binding.equals("Jump")) {
             if (isPressed) {
                 tux.jump();
+            }
+        }else if (binding.equals("Run")) {
+            if(isPressed){
+                speed = 24f;
+            }else {
+                speed = 6f;
             }
         }
     }
@@ -182,11 +184,6 @@ public class Tux implements ActionListener, PhysicsCollisionListener {
 
     public float getScale(){
         return tuxModel.getLocalScale().getY();
-    }
-
-    @Override
-    public void collision(PhysicsCollisionEvent physicsCollisionEvent) {
-        System.out.println("collision: A:" + physicsCollisionEvent.getNodeA().getName() + " B:" + physicsCollisionEvent.getNodeB().getName());
     }
 
     public Geometry getSpatial() {

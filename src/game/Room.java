@@ -45,7 +45,7 @@ public class Room {
         this.depth = depth;
         this.height = height;
         //definition du sol
-        Box boxFloor = new Box(Vector3f.ZERO,width, 10, depth);
+        Box boxFloor = new Box(width, 10, depth);
         floor = new Geometry("Floor", boxFloor);
         floor.setLocalTranslation(0, -boxFloor.yExtent, 0);
         floor.setMaterial(generateMaterial(textureBottom));

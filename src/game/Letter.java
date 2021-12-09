@@ -41,7 +41,7 @@ public class Letter {
         else
             mat_cube.setTexture("ColorMap",assetManager.loadTexture("/models/cube/cube.png"));
         cube.setMaterial(mat_cube);
-        cube.setLocalTranslation(x,40,z);
+        cube.setLocalTranslation(x,(float)context.getRoom().getHeight()*2,z);
         cube.scale(4f);
         cube.setName(this.id);
         CollisionShape cubeShapeCollide = CollisionShapeFactory.createBoxShape(cube);

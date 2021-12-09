@@ -78,15 +78,7 @@ public abstract class Jeu extends Env{
 
         // Instancie des lettres
         lettres = new ArrayList<Letter>();
-
-        dico = new Dico("xml/dico.xml");
-        try {
-            dico.lireDictionnaireDOM("src/xml/", "dico.xml");
-        } catch (SAXException ex) {
-            Logger.getLogger(LanceurDeJeu.class.getName()).log(Level.parse("Ici"+ Level.SEVERE), null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(LanceurDeJeu.class.getName()).log(Level.parse("là"+ Level.SEVERE), null, ex);
-        }
+        
         viewPort.setBackgroundColor(new ColorRGBA(0.7f, 0.8f, 1f, 1f));
         setUpLight();
     }
@@ -104,27 +96,17 @@ public abstract class Jeu extends Env{
         exit();
     }
 
-    private void loadWord(){
-        String word = dico.getMotDepuisListeNiveau(4);
-        int x = 10;
-        for(char c : normalize(word.toLowerCase()).toCharArray()){
-            lettres.add(new Letter(this,c,x,50));
-            x=x+10;
-        }
-    }
-
     public void joue(Partie partie) throws InterruptedException {
         // TEMPORAIRE : on règle la room de l'environnement. Ceci sera à enlever lorsque vous ajouterez les menus.
         //setRoom(room);
         // Instancie un Tux
         bulletAppState.startPhysics();
 
-        room = new Room(this,200,200,200,"/textures/stone_granite.png","/textures/stonebrick.png","/textures/stonebrick.png","/textures/stonebrick.png","/textures/stonebrick.png");
+        room = new Room(this,220,200,200,"/textures/floor_stone.png","/textures/stonebrick.png","/textures/stonebrick.png","/textures/stonebrick.png","/textures/stonebrick.png");
 
         tux = new Tux(this);
 
         sleep(1000);
-        loadWord();
          
         // Ici, on peut initialiser des valeurs pour une nouvelle partie
         démarrePartie(partie);
@@ -133,7 +115,7 @@ public abstract class Jeu extends Env{
         Boolean finished;
         finished = false;
         while (!finished) {
-
+            appliqueRegles(partie);
             tux.simpleUpdate();
             // Contrôles globaux du jeu (sortie, ...)
             //1 is for escape key
@@ -161,13 +143,6 @@ public abstract class Jeu extends Env{
         return distance(letter)<=getTux().getScale();
     }
 
-    //Remplacer les caractères accentués par leur équivalent sans accent
-    public String normalize(String str) {
-        String normalized = Normalizer.normalize(str, Normalizer.Form.NFD);
-        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
-        return pattern.matcher(normalized).replaceAll("");
-    }
-
     public Tux getTux() {
         return tux;
     }
@@ -186,5 +161,9 @@ public abstract class Jeu extends Env{
         dl.setColor(ColorRGBA.White);
         dl.setDirection(new Vector3f(2.8f, -2.8f, -2.8f).normalizeLocal());
         rootNode.addLight(dl);
+    }
+
+    public Room getRoom() {
+        return room;
     }
 }
