@@ -56,10 +56,10 @@ public class Room {
 
         //definition des murs
         Box boxNS = new Box(width, height, 10);
-        Box boxEW = new Box(1, height, width);
+        Box boxEW = new Box(10, height, width);
 
         wallNorth = new Geometry("WallNorth", boxNS);
-        wallNorth.setLocalTranslation(0, height, -depth);
+        wallNorth.setLocalTranslation(10, height, -depth);
         wallNorth.setMaterial(generateMaterial(textureNorth));
         CollisionShape sceneShapeNorth = CollisionShapeFactory.createBoxShape(wallNorth);
         wallNorth.addControl(new RigidBodyControl(sceneShapeNorth, 0));
