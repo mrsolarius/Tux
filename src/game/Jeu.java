@@ -7,6 +7,7 @@ package game;
 
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.font.BitmapText;
 import com.jme3.input.ChaseCamera;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
@@ -54,6 +55,7 @@ public abstract class Jeu extends Env{
 
     public Jeu() {
         this.rootNode.detachAllChildren();
+        this.guiNode.detachAllChildren();
 
         //inisialisation de la pysique
         bulletAppState = new BulletAppState();

@@ -30,7 +30,7 @@ public class LettersManager {
                 xPos = -context.getRoom().getWidth()+(30+plotSize);
                 zPos += plotSize+30;
             }
-            plots.add(new LetterPlot(context, word.charAt(i), xPos, zPos, plotSize, 270 * FastMath.DEG_TO_RAD));
+            plots.add(new LetterPlot(context, word.charAt(i),i, xPos, zPos, plotSize, 270 * FastMath.DEG_TO_RAD));
             xPos+=plotSize+30;
         }
     }

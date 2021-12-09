@@ -92,9 +92,11 @@ public class Tux implements ActionListener {
         chaseCam.setMaxDistance(100f);
         chaseCam.setDefaultDistance(40f);
         chaseCam.setDefaultHorizontalRotation(0f);
-        chaseCam.setMaxVerticalRotation(0.6f);
+        chaseCam.setDefaultVerticalRotation(0.3f);
+        chaseCam.setMaxVerticalRotation(0.5f);
         chaseCam.setMinVerticalRotation(0);
         chaseCam.setSmoothMotion(true);
+        chaseCam.setTrailingEnabled(true);
 
         setUpKeys();
     }
@@ -113,13 +115,9 @@ public class Tux implements ActionListener {
         context.getInputManager().addListener(this, "Run");
     }
 
-    /*private void setUpPhysicsListeners() {
-        tux.getPhysicsSpace().addCollisionListener(this);
-    }*/
-
     @Override
     public void onAction(String binding, boolean isPressed, float tpf) {
-        System.out.println("coorodnates : " + tuxNode.getLocalTranslation().x + " " + tuxNode.getLocalTranslation().y + " " + tuxNode.getLocalTranslation().z);
+        //System.out.println("coorodnates : " + tuxNode.getLocalTranslation().x + " " + tuxNode.getLocalTranslation().y + " " + tuxNode.getLocalTranslation().z);
         if (binding.equals("Left")) {
             left = isPressed;
         } else if (binding.equals("Right")) {
