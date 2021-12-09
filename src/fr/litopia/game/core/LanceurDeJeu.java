@@ -3,12 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package game;
+package fr.litopia.game.core;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import fr.litopia.game.model.Dico;
+import fr.litopia.game.assets.movable.Letter;
 import org.xml.sax.SAXException;
 
 /**
@@ -20,9 +23,9 @@ public class LanceurDeJeu {
     private ArrayList<Letter> lettres;
 
     public static void main(String[] args) {
-        Dico jeSuisUnePatate = new Dico("xml/dico.xml");
+        Dico jeSuisUnePatate = new Dico("src/res/xml/dico.xml");
         try {
-            jeSuisUnePatate.lireDictionnaireDOM("src/xml/", "dico.xml");
+            jeSuisUnePatate.lireDictionnaireDOM("src/res/xml/", "dico.xml");
         } catch (SAXException ex) {
             Logger.getLogger(LanceurDeJeu.class.getName()).log(Level.parse("Ici"+ Level.SEVERE), null, ex);
         } catch (IOException ex) {

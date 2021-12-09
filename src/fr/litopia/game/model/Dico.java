@@ -3,15 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package game;
+package fr.litopia.game.model;
 
 import com.sun.org.apache.xerces.internal.parsers.DOMParser;
 
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.io.IOException;
-import java.util.regex.Pattern;
 
+import fr.litopia.game.utils.Random;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

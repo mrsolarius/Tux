@@ -3,37 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package game;
+package fr.litopia.game.core;
 
 import com.jme3.bullet.BulletAppState;
-import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.font.BitmapText;
-import com.jme3.input.ChaseCamera;
-import com.jme3.input.KeyInput;
-import com.jme3.input.controls.ActionListener;
-import com.jme3.input.controls.KeyTrigger;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
-import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Spatial;
-import com.jme3.system.AppSettings;
 import com.jme3.texture.Texture;
 import com.jme3.util.SkyFactory;
 import env3d.Env;
-import org.xml.sax.SAXException;
+import fr.litopia.game.assets.movable.Letter;
+import fr.litopia.game.assets.scene.Room;
+import fr.litopia.game.assets.movable.Tux;
+import fr.litopia.game.model.Dico;
+import fr.litopia.game.model.Partie;
+import fr.litopia.game.model.Profil;
 
 import java.awt.*;
-import java.io.IOException;
-import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Pattern;
 
-import static env3d.GameObjectAdapter.assetManager;
 import static java.lang.Thread.sleep;
 
 /**
@@ -76,10 +65,6 @@ public abstract class Jeu extends Env{
         setResolution(1920, 1080,32);
         setDisplayStr(ge[0].getIDstring());
 
-
-        // Instancie un profil par défaut
-        profil = new Profil();
-
         // Instancie des lettres
         lettres = new ArrayList<Letter>();
         
@@ -98,7 +83,8 @@ public abstract class Jeu extends Env{
         // pour l'instant, nous nous contentons d'appeler la méthode joue comme cela
         // et nous créons une partie vide, juste pour que cela fonctionne
         try {
-            joue(new Partie((new Date().toString()),"Joueur",0));
+            Profil profil = new Profil("Nathalia", "05/05/1995", "/models/tux/tux.png");
+            joue(new Partie(0,profil));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

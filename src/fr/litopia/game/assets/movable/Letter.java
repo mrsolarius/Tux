@@ -3,22 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package game;
+package fr.litopia.game.assets.movable;
 
-import com.jme3.bounding.BoundingVolume;
-import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
-import com.jme3.collision.Collidable;
-import com.jme3.collision.CollisionResults;
-import com.jme3.collision.UnsupportedCollisionException;
 import com.jme3.material.Material;
-import com.jme3.scene.SceneGraphVisitor;
 import com.jme3.scene.Spatial;
-import env3d.advanced.EnvNode;
-
-import java.util.Queue;
+import fr.litopia.game.core.Jeu;
 
 import static env3d.GameObjectAdapter.assetManager;
 

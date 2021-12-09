@@ -1,19 +1,23 @@
-package game;
+package fr.litopia.game.assets.factory;
 
 import com.jme3.math.FastMath;
+import fr.litopia.game.assets.movable.Letter;
+import fr.litopia.game.assets.scene.LetterPlot;
+import fr.litopia.game.core.Jeu;
+import fr.litopia.game.utils.Random;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-public class LettersManager {
+public class LettersFactory {
     private ArrayList<Letter> letters;
     private ArrayList<LetterPlot> plots;
     private String word;
     private Jeu context;
     private Boolean isLetterSpawned;
 
-    public LettersManager(Jeu context, String word) {
+    public LettersFactory(Jeu context, String word) {
         this.context = context;
         this.word = normalize(word.toLowerCase());
         this.isLetterSpawned = false;

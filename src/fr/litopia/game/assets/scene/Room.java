@@ -3,27 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package game;
+package fr.litopia.game.assets.scene;
 
-import com.jme3.bounding.BoundingVolume;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
-import com.jme3.collision.Collidable;
-import com.jme3.collision.CollisionResults;
-import com.jme3.collision.UnsupportedCollisionException;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Matrix3f;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
-import com.jme3.scene.SceneGraphVisitor;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
-
-import java.util.ArrayList;
-import java.util.Queue;
+import fr.litopia.game.core.Jeu;
 
 import static env3d.GameObjectAdapter.assetManager;
 
@@ -41,7 +32,7 @@ public class Room {
     private int height = 200;
     private int width = 200;
 
-    public Room(Jeu context, int width, int depth, int height,String textureBottom, String textureNorth, String textureEast, String textureSouth,String textureWest) {
+    public Room(Jeu context, int width, int depth, int height, String textureBottom, String textureNorth, String textureEast, String textureSouth, String textureWest) {
         //Definition de la taille de la room
         this.width = width;
         this.depth = depth;

@@ -1,18 +1,17 @@
-package game;
+package fr.litopia.game.core;
 
 import com.jme3.font.BitmapText;
 import com.jme3.math.ColorRGBA;
-import org.xml.sax.SAXException;
+import fr.litopia.game.assets.scene.LetterPlot;
+import fr.litopia.game.assets.listeners.LettersListener;
+import fr.litopia.game.assets.factory.LettersFactory;
+import fr.litopia.game.model.Partie;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class JeuDevineLeMotOrdre extends Jeu implements LettersListener {
     private ArrayList<Integer> letterFound;
-    private LettersManager lettersManager;
-    private Dico dico;
+    private LettersFactory lettersFactory;
     private int chrono;
     private int score;
     private BitmapText chronoText;
@@ -23,14 +22,6 @@ public class JeuDevineLeMotOrdre extends Jeu implements LettersListener {
     public JeuDevineLeMotOrdre() {
         super();
         letterFound = new ArrayList<>();
-        dico = new Dico("xml/dico.xml");
-        try {
-            dico.lireDictionnaireDOM("src/xml/", "dico.xml");
-        } catch (SAXException ex) {
-            Logger.getLogger(LanceurDeJeu.class.getName()).log(Level.parse("Ici"+ Level.SEVERE), null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(LanceurDeJeu.class.getName()).log(Level.parse("là"+ Level.SEVERE), null, ex);
-        }
     }
 
 
@@ -50,15 +41,15 @@ public class JeuDevineLeMotOrdre extends Jeu implements LettersListener {
         scoreText.setLocalTranslation(0, scoreText.getHeight()+200,0);
         guiNode.attachChild(scoreText);
 
-        lettersManager = new LettersManager(this, dico.getMotDepuisListeNiveau(1));
-        lettersManager.spawnPlots();
+        lettersFactory = new LettersFactory(this, partie.getMot());
+        lettersFactory.spawnPlots();
     }
 
     @Override
     protected void appliqueRegles(Partie partie) {
         if(chrono>=500)
-            if(!lettersManager.isLetterSpawned())
-                lettersManager.spawnLetters();
+            if(!lettersFactory.isLetterSpawned())
+                lettersFactory.spawnLetters();
         if(chrono>=50000){
             chrono=0;
         }

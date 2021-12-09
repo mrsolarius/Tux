@@ -1,17 +1,16 @@
-package game;
+package fr.litopia.game.assets.scene;
 
 import com.jme3.bullet.collision.PhysicsCollisionEvent;
 import com.jme3.bullet.collision.PhysicsCollisionListener;
-import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.CollisionShape;
-import com.jme3.bullet.control.PhysicsControl;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.material.Material;
-import com.jme3.math.Matrix3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
+import fr.litopia.game.assets.listeners.LettersListener;
+import fr.litopia.game.core.Jeu;
 
 import static env3d.GameObjectAdapter.assetManager;
 
@@ -25,7 +24,7 @@ public class LetterPlot implements PhysicsCollisionListener {
     private int wordPosition;
     private static int count = 1;
 
-    public LetterPlot(Jeu context, char exceptedLetter,int wordPosition, float x, float z,float size,float rotation){
+    public LetterPlot(Jeu context, char exceptedLetter, int wordPosition, float x, float z, float size, float rotation){
         this.exceptedLetter = exceptedLetter;
         this.currentLetter= ' ';
         this.id = "plot" + count;
