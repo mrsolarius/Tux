@@ -7,11 +7,15 @@ package game;
 
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.input.ChaseCamera;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.light.AmbientLight;
+import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
 import env3d.Env;
@@ -56,11 +60,10 @@ public abstract class Jeu extends Env{
         stateManager.attach(bulletAppState);
 
         // Instancie une Room
-        flyCam.setEnabled(true);
+        flyCam.setEnabled(false);
         // Règle la camera
-        setCameraXYZ(50, 30, 150);
+        //setCameraXYZ(50, 30, 150);
         //setDefaultControl(true);
-        setCameraPitch(-45);
         // Désactive les contrôles par défaut
         //setDefaultControl(false);
 
@@ -84,6 +87,8 @@ public abstract class Jeu extends Env{
         } catch (IOException ex) {
             Logger.getLogger(LanceurDeJeu.class.getName()).log(Level.parse("là"+ Level.SEVERE), null, ex);
         }
+        viewPort.setBackgroundColor(new ColorRGBA(0.7f, 0.8f, 1f, 1f));
+        setUpLight();
     }
 
     public void execute() {
@@ -169,5 +174,17 @@ public abstract class Jeu extends Env{
 
     public ArrayList<Letter> getLettres() {
         return lettres;
+    }
+
+    private void setUpLight() {
+        // We add light so we see the scene
+        AmbientLight al = new AmbientLight();
+        al.setColor(ColorRGBA.White.mult(1.3f));
+        rootNode.addLight(al);
+
+        DirectionalLight dl = new DirectionalLight();
+        dl.setColor(ColorRGBA.White);
+        dl.setDirection(new Vector3f(2.8f, -2.8f, -2.8f).normalizeLocal());
+        rootNode.addLight(dl);
     }
 }

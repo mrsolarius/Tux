@@ -40,7 +40,7 @@ public class Letter {
             mat_cube.setTexture("ColorMap",assetManager.loadTexture("/models/cube/cube.png"));
         cube.setMaterial(mat_cube);
         cube.setLocalTranslation(x,40,z);
-        RigidBodyControl cubeBody = new RigidBodyControl( 0.02f);
+        RigidBodyControl cubeBody = new RigidBodyControl( 10);
         cube.setLocalScale(2f,2f,2f);
         cube.setName(this.id);
         cube.addControl(cubeBody);

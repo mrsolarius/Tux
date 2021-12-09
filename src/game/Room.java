@@ -49,7 +49,7 @@ public class Room {
         floor = new Geometry("Floor", boxFloor);
         floor.setLocalTranslation(0, -boxFloor.yExtent, 0);
         floor.setMaterial(generateMaterial(textureBottom));
-        CollisionShape sceneShapeFloor = CollisionShapeFactory.createBoxShape(floor);
+        CollisionShape sceneShapeFloor = CollisionShapeFactory.createMeshShape(floor);
         floor.addControl(new RigidBodyControl(sceneShapeFloor, 0));
         context.getRootNode().attachChild(floor);
         context.getBulletAppState().getPhysicsSpace().add(floor);
