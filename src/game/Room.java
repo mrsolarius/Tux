@@ -13,6 +13,8 @@ import com.jme3.collision.Collidable;
 import com.jme3.collision.CollisionResults;
 import com.jme3.collision.UnsupportedCollisionException;
 import com.jme3.material.Material;
+import com.jme3.material.RenderState;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
@@ -58,37 +60,43 @@ public class Room {
         Box boxNS = new Box(width, height, 10);
         Box boxEW = new Box(10, height, width);
 
+
+        final Material mat2 = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        mat2.setTransparent(true);
+        mat2.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
+        mat2.setColor("Color", new ColorRGBA(0, 1, 0, 0.01f));
+
         wallNorth = new Geometry("WallNorth", boxNS);
         wallNorth.setLocalTranslation(10, height, -depth);
-        wallNorth.setMaterial(generateMaterial(textureNorth));
+        wallNorth.setMaterial(mat2);
         CollisionShape sceneShapeNorth = CollisionShapeFactory.createBoxShape(wallNorth);
         wallNorth.addControl(new RigidBodyControl(sceneShapeNorth, 0));
-        context.getRootNode().attachChild(wallNorth);
+        //context.getRootNode().attachChild(wallNorth);
         context.getBulletAppState().getPhysicsSpace().add(wallNorth);
 
         wallEast = new Geometry("WallEast", boxEW);
         wallEast.setLocalTranslation(width, height, 10);
-        wallEast.setMaterial(generateMaterial(textureEast));
+        wallEast.setMaterial(mat2);
         CollisionShape sceneShapeEast = CollisionShapeFactory.createBoxShape(wallEast);
         wallEast.addControl(new RigidBodyControl(sceneShapeEast, 0));
-        context.getRootNode().attachChild(wallEast);
+        //context.getRootNode().attachChild(wallEast);
         context.getBulletAppState().getPhysicsSpace().add(wallEast);
 
 
         wallSouth = new Geometry("WallSouth", boxNS);
         wallSouth.setLocalTranslation(10, height, depth);
-        wallSouth.setMaterial(generateMaterial(textureSouth));
+        wallSouth.setMaterial(mat2);
         CollisionShape sceneShape = CollisionShapeFactory.createBoxShape(wallSouth);
         wallSouth.addControl(new RigidBodyControl(sceneShape, 0));
-        context.getRootNode().attachChild(wallSouth);
+        //context.getRootNode().attachChild(wallSouth);
         context.getBulletAppState().getPhysicsSpace().add(wallSouth);
 
         wallWest = new Geometry("WallWest", boxEW);
         wallWest.setLocalTranslation(-width, height, 10);
-        wallWest.setMaterial(generateMaterial(textureWest));
+        wallWest.setMaterial(mat2);
         CollisionShape sceneShapeWest = CollisionShapeFactory.createBoxShape(wallWest);
         wallWest.addControl(new RigidBodyControl(sceneShapeWest, 0));
-        context.getRootNode().attachChild(wallWest);
+        //context.getRootNode().attachChild(wallWest);
         context.getBulletAppState().getPhysicsSpace().add(wallWest);
     }
 

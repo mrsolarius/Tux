@@ -19,6 +19,8 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
+import com.jme3.texture.Texture;
+import com.jme3.util.SkyFactory;
 import env3d.Env;
 import org.xml.sax.SAXException;
 
@@ -83,6 +85,13 @@ public abstract class Jeu extends Env{
         
         viewPort.setBackgroundColor(new ColorRGBA(0.7f, 0.8f, 1f, 1f));
         setUpLight();
+        Texture west = getAssetManager().loadTexture("textures/skybox/holodeck/west.png");
+        Texture east = getAssetManager().loadTexture("textures/skybox/holodeck/east.png");
+        Texture north = getAssetManager().loadTexture("textures/skybox/holodeck/north.png");
+        Texture south = getAssetManager().loadTexture("textures/skybox/holodeck/south.png");
+        Texture up = getAssetManager().loadTexture("textures/skybox/holodeck/top.png");
+        Texture down = getAssetManager().loadTexture("textures/skybox/holodeck/bottom.png");
+        getRootNode().attachChild(SkyFactory.createSky(getAssetManager(), west, east, north, south, up, down));
     }
 
     public void execute() {
@@ -104,7 +113,7 @@ public abstract class Jeu extends Env{
         // Instancie un Tux
         bulletAppState.startPhysics();
 
-        room = new Room(this,220,200,200,"/textures/floor_stone.png","/textures/stonebrick.png","/textures/stonebrick.png","/textures/stonebrick.png","/textures/stonebrick.png");
+        room = new Room(this,220,200,200,"/textures/floor_stone.png","/textures/1x1.png","/textures/1x1.png","/textures/1x1.png","/textures/1x1.png");
 
         tux = new Tux(this);
 

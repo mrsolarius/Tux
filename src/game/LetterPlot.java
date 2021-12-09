@@ -47,7 +47,6 @@ public class LetterPlot implements PhysicsCollisionListener {
         RigidBodyControl physics = new RigidBodyControl(shape, 0);
         plot.addControl(physics);
         context.getRootNode().attachChild(plot);
-        context.getBulletAppState().setDebugEnabled(true);
         context.getBulletAppState().getPhysicsSpace().add(physics);
         context.getBulletAppState().getPhysicsSpace().addCollisionListener(this);
         this.listener = (LettersListener) context;
