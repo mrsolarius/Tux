@@ -6,7 +6,9 @@
 package game;
 
 import com.jme3.bounding.BoundingVolume;
+import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.collision.Collidable;
 import com.jme3.collision.CollisionResults;
 import com.jme3.collision.UnsupportedCollisionException;
@@ -40,12 +42,13 @@ public class Letter {
             mat_cube.setTexture("ColorMap",assetManager.loadTexture("/models/cube/cube.png"));
         cube.setMaterial(mat_cube);
         cube.setLocalTranslation(x,40,z);
-        RigidBodyControl cubeBody = new RigidBodyControl( 10);
-        cube.setLocalScale(2f,2f,2f);
+        cube.scale(4f);
         cube.setName(this.id);
-        cube.addControl(cubeBody);
+        CollisionShape cubeShapeCollide = CollisionShapeFactory.createBoxShape(cube);
+        RigidBodyControl cubeRigidBody = new RigidBodyControl(cubeShapeCollide, 1f);
+        cube.addControl(cubeRigidBody);
         context.getRootNode().attachChild(cube);
-        context.getBulletAppState().getPhysicsSpace().add(cubeBody);
+        context.getBulletAppState().getPhysicsSpace().add(cubeRigidBody);
         count++;
     }
 

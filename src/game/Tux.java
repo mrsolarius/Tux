@@ -32,6 +32,7 @@ import env3d.Env;
 import env3d.advanced.EnvNode;
 import org.lwjgl.input.Keyboard;
 
+import static com.jme3.scene.Spatial.BatchHint.Always;
 import static env3d.GameObjectAdapter.assetManager;
 
 /**
@@ -40,6 +41,7 @@ import static env3d.GameObjectAdapter.assetManager;
  */
 public class Tux implements ActionListener, PhysicsCollisionListener {
     private Jeu context;
+    private Node tuxNode;
     private BetterCharacterControl tux;
     private Geometry tuxModel;
     private ChaseCamera chaseCam;
@@ -60,37 +62,39 @@ public class Tux implements ActionListener, PhysicsCollisionListener {
         speed = 6f;
         strafeSpeed = 4f;
         headHeight = 3f;
-
         this.context = context;
+
+        tuxNode = new Node("Tux");
+
         tuxModel = (Geometry) assetManager.loadModel("models/tux/tux.obj");
-        Material mat_tux = new Material(
-                assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        Material mat_tux = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         mat_tux.setTexture("ColorMap",assetManager.loadTexture("models/tux/tux.png"));
         tuxModel.setMaterial(mat_tux);
         tuxModel.setLocalScale(5f);
-        tuxModel.setLocalTranslation(new Vector3f(0,25,0));
-        tuxModel.setName("Tux");
+        tuxModel.setLocalTranslation(new Vector3f(0,tuxModel.getLocalScale().y,0));
+        tuxNode.attachChild(tuxModel);
 
-        tux = new BetterCharacterControl(2f,10f,1f);
-        tux.setJumpForce(new Vector3f(0,10f,0));
-        tux.setGravity(new Vector3f(0, 1f ,0));
+        // Inisialisation de la phisique de Tux (CharacterControl)
+        tux = new BetterCharacterControl(tuxModel.getLocalScale().x-1,(tuxModel.getLocalScale().y-1)*2,1f);
+        tux.setJumpForce(new Vector3f(0,15f,0));
+        tux.setGravity(new Vector3f(0, 10f ,0));
         tux.warp(new Vector3f(0,0,0));
 
-        tuxModel.addControl(tux);
+        // On ajoute le CharacterControl au Node
+        tuxNode.addControl(tux);
         context.getBulletAppState().setDebugEnabled(true);
-        context.getBulletAppState().getPhysicsSpace().add(tux);
-        context.getRootNode().attachChild(tuxModel);
+        context.getBulletAppState().getPhysicsSpace().add(tuxNode);
+        context.getRootNode().attachChild(tuxNode);
 
 
         chaseCam = new ChaseCamera(context.getCamera(), tuxModel, context.getInputManager());
         chaseCam.setDragToRotate(false);
         chaseCam.setMinDistance(5f);
-        chaseCam.setMaxDistance(40f);
+        chaseCam.setMaxDistance(80f);
         chaseCam.setDefaultDistance(20f);
         chaseCam.setDefaultHorizontalRotation(0f);
         chaseCam.setMaxVerticalRotation(0.6f);
-        chaseCam.setMinVerticalRotation(-0.2f);
-        chaseCam.setTrailingEnabled(true);
+        chaseCam.setMinVerticalRotation(0);
         chaseCam.setSmoothMotion(true);
 
         setUpKeys();
