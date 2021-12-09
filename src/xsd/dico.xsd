@@ -36,6 +36,7 @@ and open the template in the editor.
     <simpleType name="Rule">
         <restriction base="string">
             <pattern value="[\p{L}-]{3,}"/>
+            <maxLength value="20"/>
         </restriction>
     </simpleType>
     
