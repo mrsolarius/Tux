@@ -84,7 +84,7 @@ public abstract class Jeu extends Env{
         // et nous créons une partie vide, juste pour que cela fonctionne
         try {
             Profil profil = new Profil("Nathalia", "05/05/1995", "/models/tux/tux.png");
-            joue(new Partie(0,profil));
+            joue(new Partie(1,profil));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -7,6 +7,7 @@ package fr.litopia.game.assets.movable;
 
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.material.Material;
 import com.jme3.scene.Spatial;
@@ -19,12 +20,15 @@ import static env3d.GameObjectAdapter.assetManager;
  * @author zaettal
  */
 public class Letter {
+    private Jeu context;
     private char letter;
     private Spatial cube;
+    private RigidBodyControl physics;
     private String id;
     private static int count = 0;
     
     public Letter(Jeu context, char l, float x, float z){
+        this.context = context;
         this.letter = l;
         this.id = "L"+l+count;
         cube = assetManager.loadModel("models/cube/cube.obj");
@@ -38,10 +42,10 @@ public class Letter {
         cube.scale(4f);
         cube.setName(this.id);
         CollisionShape cubeShapeCollide = CollisionShapeFactory.createBoxShape(cube);
-        RigidBodyControl cubeRigidBody = new RigidBodyControl(cubeShapeCollide, 1f);
-        cube.addControl(cubeRigidBody);
+        physics = new RigidBodyControl(cubeShapeCollide, 1f);
+        cube.addControl(physics);
         context.getRootNode().attachChild(cube);
-        context.getBulletAppState().getPhysicsSpace().add(cubeRigidBody);
+        context.getBulletAppState().getPhysicsSpace().add(physics);
         count++;
     }
 
@@ -63,5 +67,12 @@ public class Letter {
 
     public Spatial getCube() {
         return cube;
+    }
+
+    public void remove() {
+        cube.removeFromParent();
+        for (PhysicsJoint joint : physics.getJoints()) {
+            joint.destroy();
+        }
     }
 }

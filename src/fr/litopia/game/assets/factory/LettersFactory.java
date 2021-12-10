@@ -25,6 +25,12 @@ public class LettersFactory {
         plots = new ArrayList<LetterPlot>();
     }
 
+    public void removeAllLetters() {
+        for (Letter letter : letters) {
+            letter.remove();
+        }
+    }
+
     public void spawnPlots(){
         int plotSize = 10;
         float xPos = -context.getRoom().getWidth()+(30+plotSize);
@@ -61,5 +67,9 @@ public class LettersFactory {
     }
 
 
-
+    public void removeAllPlots() {
+        for (LetterPlot plot : plots) {
+            plot.remove();
+        }
+    }
 }

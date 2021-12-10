@@ -4,17 +4,23 @@ import com.jme3.bullet.collision.PhysicsCollisionEvent;
 import com.jme3.bullet.collision.PhysicsCollisionListener;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.material.Material;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import fr.litopia.game.assets.listeners.LettersListener;
 import fr.litopia.game.core.Jeu;
 
+import javax.naming.Context;
+import javax.swing.tree.MutableTreeNode;
+
 import static env3d.GameObjectAdapter.assetManager;
 
 public class LetterPlot implements PhysicsCollisionListener {
+    private Jeu context;
     private LettersListener listener;
     private final char exceptedLetter;
     private char currentLetter;
@@ -43,7 +49,7 @@ public class LetterPlot implements PhysicsCollisionListener {
         plot.rotate(0,rotation,0);
 
         CollisionShape shape = CollisionShapeFactory.createBoxShape(plot);
-        RigidBodyControl physics = new RigidBodyControl(shape, 0);
+        physics = new RigidBodyControl(shape, 0);
         plot.addControl(physics);
         context.getRootNode().attachChild(plot);
         context.getBulletAppState().getPhysicsSpace().add(physics);
@@ -74,6 +80,13 @@ public class LetterPlot implements PhysicsCollisionListener {
                     this.listener.updateLetter(this);
                 }
             }
+        }
+    }
+
+    public void remove(){
+        this.plot.removeFromParent();
+        for (PhysicsJoint joint : physics.getJoints()) {
+            joint.destroy();
         }
     }
 }

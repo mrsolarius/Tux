@@ -47,11 +47,14 @@ public class JeuDevineLeMotOrdre extends Jeu implements LettersListener {
 
     @Override
     protected void appliqueRegles(Partie partie) {
-        if(chrono>=500)
-            if(!lettersFactory.isLetterSpawned())
+        getBulletAppState().setDebugEnabled(true);
+        if (chrono >= 500){
+            if (!lettersFactory.isLetterSpawned())
                 lettersFactory.spawnLetters();
-        if(chrono>=50000){
-            chrono=0;
+        }
+        if((chrono>=(2000+(partie.getMot().length()*500+partie.getNiveau()*1000)))||
+            letterFound.size()==partie.getMot().length()){
+            terminePartie(partie);
         }
         chronoText.setText("Chrono:"+chrono);
         scoreText.setText("Score:"+score);
@@ -61,7 +64,10 @@ public class JeuDevineLeMotOrdre extends Jeu implements LettersListener {
 
     @Override
     protected void terminePartie(Partie partie) {
-
+        partie.setTemps(chrono);
+        partie.setScore(score);
+        lettersFactory.removeAllLetters();
+        lettersFactory.removeAllPlots();
     }
 
     @Override

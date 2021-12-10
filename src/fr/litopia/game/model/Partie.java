@@ -25,6 +25,7 @@ public class Partie {
     private int niveau;
     private int trouve;
     private int temps;
+    private int score;
     private Dico dico;
 
     public Partie(int niveau, Profil profil) {
@@ -61,5 +62,9 @@ public class Partie {
     @Override
     public String toString(){
         return "Date : "+date+" Mot : "+mot+" Niveau : "+niveau+" Trouve : "+trouve+" Temps : "+temps;
+    }
+
+    public void setScore(int score) {
+        this.score=score;
     }
 }
