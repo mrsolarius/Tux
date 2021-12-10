@@ -5,20 +5,9 @@
  */
 package fr.litopia.game.model;
 
-import fr.litopia.game.core.LanceurDeJeu;
-import org.xml.sax.SAXException;
-import com.sun.org.apache.xerces.internal.parsers.DOMParser;
 
-
-import java.io.IOException;
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  *
@@ -58,7 +47,9 @@ public class Partie {
     public Partie(Element partieElt) {
         this.date = partieElt.getAttribute("date");
         try{
-            this.trouve = Integer.parseInt(partieElt.getAttribute("trouvé"));
+            // On enlève le % afin que le parseInt puisse fonctionner correctement
+            String trouveSansLastChar = partieElt.getAttribute("trouvé").replace("%", "");
+            this.trouve = Integer.parseInt(trouveSansLastChar);
         }
         catch (NumberFormatException ex){
             //ex.printStackTrace();
@@ -68,7 +59,14 @@ public class Partie {
             this.temps = Integer.parseInt(partieElt.getElementsByTagName("temps").item(0).getTextContent());
         }
         catch (NumberFormatException ex){
-            //si le temps est mal rentré, on le laisse à 0 par défaut
+            //si le temps n'est pas un int valide, c'est qu'il est soit invalide, soit rentré sous forme de double
+            try {
+                // on vérifie s'il est rentré sous forme de double et on le convertit en int
+                this.temps = (int) Double.parseDouble(partieElt.getElementsByTagName("temps").item(0).getTextContent());
+            }
+            catch (NumberFormatException ex2){
+                // sinon c'est que le nombre est rentré sous un format invalide, on le laisse donc par défaut à 0
+            }
         }
         catch (NullPointerException nu) {
             //s'il n'y a pas de temps, on ne modifie pas sa valeur
@@ -84,12 +82,11 @@ public class Partie {
     }
     
     public Element getPartie(Document doc) {
-        // récupère la liste des éléments nommés tr:pos
         Element nouvellePartie = doc.createElement("partie");
         nouvellePartie.setAttribute("date", date);
         // si le joueur n'a pas tout trouvé, alors on affiche son % de lettres trouvées
         if(trouve!=100) {
-            nouvellePartie.setAttribute("trouvé", String.valueOf(trouve));
+            nouvellePartie.setAttribute("trouvé", String.valueOf(trouve)+"%");
         }
         // Sinon, on ajoute un element temps qui indiquera en cb de temps le mot a été trouvé
         else 
