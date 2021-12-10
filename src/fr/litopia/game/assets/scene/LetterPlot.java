@@ -85,8 +85,5 @@ public class LetterPlot implements PhysicsCollisionListener {
 
     public void remove(){
         this.plot.removeFromParent();
-        for (PhysicsJoint joint : physics.getJoints()) {
-            joint.destroy();
-        }
     }
 }

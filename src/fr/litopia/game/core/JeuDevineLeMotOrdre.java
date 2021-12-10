@@ -47,7 +47,6 @@ public class JeuDevineLeMotOrdre extends Jeu implements LettersListener {
 
     @Override
     protected void appliqueRegles(Partie partie) {
-        getBulletAppState().setDebugEnabled(true);
         if (chrono >= 500){
             if (!lettersFactory.isLetterSpawned())
                 lettersFactory.spawnLetters();
@@ -68,6 +67,7 @@ public class JeuDevineLeMotOrdre extends Jeu implements LettersListener {
         partie.setScore(score);
         lettersFactory.removeAllLetters();
         lettersFactory.removeAllPlots();
+        exit();
     }
 
     @Override

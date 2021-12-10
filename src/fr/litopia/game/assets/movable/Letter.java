@@ -71,8 +71,5 @@ public class Letter {
 
     public void remove() {
         cube.removeFromParent();
-        for (PhysicsJoint joint : physics.getJoints()) {
-            joint.destroy();
-        }
     }
 }
