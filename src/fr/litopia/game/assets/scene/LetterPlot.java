@@ -4,23 +4,16 @@ import com.jme3.bullet.collision.PhysicsCollisionEvent;
 import com.jme3.bullet.collision.PhysicsCollisionListener;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.bullet.joints.PhysicsJoint;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.material.Material;
 import com.jme3.scene.Geometry;
-import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import fr.litopia.game.assets.listeners.LettersListener;
-import fr.litopia.game.core.Jeu;
-
-import javax.naming.Context;
-import javax.swing.tree.MutableTreeNode;
-
-import static env3d.GameObjectAdapter.assetManager;
+import fr.litopia.game.core.GameFindWord;
 
 public class LetterPlot implements PhysicsCollisionListener {
-    private Jeu context;
+    private GameFindWord context;
     private LettersListener listener;
     private final char exceptedLetter;
     private char currentLetter;
@@ -30,20 +23,20 @@ public class LetterPlot implements PhysicsCollisionListener {
     private int wordPosition;
     private static int count = 1;
 
-    public LetterPlot(Jeu context, char exceptedLetter, int wordPosition, float x, float z, float size, float rotation){
+    public LetterPlot(GameFindWord context, char exceptedLetter, int wordPosition, float x, float z, float size, float rotation){
         this.exceptedLetter = exceptedLetter;
         this.currentLetter= ' ';
         this.id = "plot" + count;
         this.wordPosition = wordPosition;
+        this.context = context;
 
         Box box = new Box(size, 1, size);
         plot = new Geometry(id, box);
-        Material mat_plot = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        mat_plot.setTexture("ColorMap", assetManager.loadTexture("models/cube/cube.png"));
+        Material mat_plot = new Material(context.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
         if(count<=20)
-            mat_plot.setTexture("ColorMap",assetManager.loadTexture("/models/plot/brick"+count+".png"));
+            mat_plot.setTexture("ColorMap",context.getAssetManager().loadTexture("/textures/plot/brick"+count+".png"));
         else
-            mat_plot.setTexture("ColorMap",assetManager.loadTexture("/models/plot/brick.png"));
+            mat_plot.setTexture("ColorMap",context.getAssetManager().loadTexture("/textures/plot/brick.png"));
         plot.setMaterial(mat_plot);
         plot.setLocalTranslation(x,0,z);
         plot.rotate(0,rotation,0);

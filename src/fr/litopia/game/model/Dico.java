@@ -5,6 +5,7 @@
  */
 package fr.litopia.game.model;
 
+import com.jme3.app.SimpleApplication;
 import com.sun.org.apache.xerces.internal.parsers.DOMParser;
 
 import java.util.ArrayList;

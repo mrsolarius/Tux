@@ -5,6 +5,7 @@
  */
 package fr.litopia.game.model;
 
+import com.jme3.app.SimpleApplication;
 import fr.litopia.game.core.LanceurDeJeu;
 import org.xml.sax.SAXException;
 

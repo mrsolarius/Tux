@@ -5,14 +5,9 @@
  */
 package fr.litopia.game.core;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import fr.litopia.game.model.Dico;
 import fr.litopia.game.assets.movable.Letter;
-import org.xml.sax.SAXException;
 
 /**
  *
@@ -23,6 +18,7 @@ public class LanceurDeJeu {
     private ArrayList<Letter> lettres;
 
     public static void main(String[] args) {
+        /*
         Dico jeSuisUnePatate = new Dico("src/res/xml/dico.xml");
         try {
             jeSuisUnePatate.lireDictionnaireDOM("src/res/xml/", "dico.xml");
@@ -33,11 +29,14 @@ public class LanceurDeJeu {
         }
         System.out.println(jeSuisUnePatate.toString());
 
+        /*
         // Declare un Jeu
         Jeu jeu;
         //Instancie un nouveau jeu
         jeu = new JeuDevineLeMotOrdre();
         //Execute le jeu
-        jeu.execute();
+        jeu.execute();*/
+        GameLoop testSimple = new GameLoop();
+        testSimple.start();
     }
 }

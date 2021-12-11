@@ -3,6 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/home/louis/IdeaProjects/Tux/src/fr/litopia/game/model/Profil.java</file>
+            <file>file:/home/louis/IdeaProjects/Tux/src/fr/litopia/game/model/Partie.java</file>
+            <file>file:/home/louis/IdeaProjects/Tux/src/fr/litopia/game/assets/scene/Room.java</file>
+            <file>file:/home/louis/IdeaProjects/Tux/src/fr/litopia/game/core/LanceurDeJeu.java</file>
+            <file>file:/home/louis/IdeaProjects/Tux/src/fr/litopia/game/model/Dico.java</file>
+            <file>file:/home/louis/IdeaProjects/Tux/src/fr/litopia/game/core/JeuDevineLeMotOrdre.java</file>
+            <file>file:/home/louis/IdeaProjects/Tux/src/fr/litopia/game/core/Jeu.java</file>
         </group>
     </open-files>
 </project-private>

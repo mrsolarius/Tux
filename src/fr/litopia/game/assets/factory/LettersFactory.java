@@ -3,7 +3,7 @@ package fr.litopia.game.assets.factory;
 import com.jme3.math.FastMath;
 import fr.litopia.game.assets.movable.Letter;
 import fr.litopia.game.assets.scene.LetterPlot;
-import fr.litopia.game.core.Jeu;
+import fr.litopia.game.core.GameFindWord;
 import fr.litopia.game.utils.Random;
 
 import java.text.Normalizer;
@@ -14,10 +14,10 @@ public class LettersFactory {
     private ArrayList<Letter> letters;
     private ArrayList<LetterPlot> plots;
     private String word;
-    private Jeu context;
+    private GameFindWord context;
     private Boolean isLetterSpawned;
 
-    public LettersFactory(Jeu context, String word) {
+    public LettersFactory(GameFindWord context, String word) {
         this.context = context;
         this.word = normalize(word.toLowerCase());
         this.isLetterSpawned = false;
