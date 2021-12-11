@@ -5,7 +5,6 @@
  */
 package fr.litopia.game.model;
 
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

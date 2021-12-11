@@ -14,9 +14,7 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
-import fr.litopia.game.core.Jeu;
-
-import static env3d.GameObjectAdapter.assetManager;
+import fr.litopia.game.core.GameFindWord;
 
 /**
  *
@@ -31,12 +29,14 @@ public class Room {
     private int depth = 200;
     private int height = 200;
     private int width = 200;
+    private final GameFindWord context;
 
-    public Room(Jeu context, int width, int depth, int height, String textureBottom, String textureNorth, String textureEast, String textureSouth, String textureWest) {
+    public Room(GameFindWord context, int width, int depth, int height, String textureBottom, String textureNorth, String textureEast, String textureSouth, String textureWest) {
         //Definition de la taille de la room
         this.width = width;
         this.depth = depth;
         this.height = height;
+        this.context = context;
         //definition du sol
         Box boxFloor = new Box(width, 10, depth);
         floor = new Geometry("Floor", boxFloor);
@@ -52,7 +52,7 @@ public class Room {
         Box boxEW = new Box(10, height, width);
 
 
-        final Material mat2 = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        final Material mat2 = new Material(context.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
         mat2.setTransparent(true);
         mat2.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
         mat2.setColor("Color", new ColorRGBA(0, 1, 0, 0.01f));
@@ -92,8 +92,8 @@ public class Room {
     }
 
     private Material generateMaterial(String texture) {
-        Material material = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        material.setTexture("ColorMap",assetManager.loadTexture(texture));
+        Material material = new Material(context.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+        material.setTexture("ColorMap",context.getAssetManager().loadTexture(texture));
         return material;
     }
 

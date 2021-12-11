@@ -14,16 +14,14 @@ import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import fr.litopia.game.core.Jeu;
-
-import static env3d.GameObjectAdapter.assetManager;
+import fr.litopia.game.core.GameFindWord;
 
 /**
  *
  * @author zaettal
  */
 public class Tux implements ActionListener {
-    private Jeu context;
+    private GameFindWord context;
     private Node tuxNode;
     private BetterCharacterControl tux;
     private Geometry tuxModel;
@@ -40,7 +38,7 @@ public class Tux implements ActionListener {
     private float strafeSpeed;
     private float headHeight;
 
-    public Tux(Jeu context) {
+    public Tux(GameFindWord context) {
         // set player speed
         speed = 6f;
         strafeSpeed = 4f;
@@ -49,9 +47,9 @@ public class Tux implements ActionListener {
 
         tuxNode = new Node("Tux");
 
-        tuxModel = (Geometry) assetManager.loadModel("models/tux/tux.obj");
-        Material mat_tux = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        mat_tux.setTexture("ColorMap",assetManager.loadTexture("models/tux/tux.png"));
+        tuxModel = (Geometry) context.getAssetManager().loadModel("models/tux/tux.obj");
+        Material mat_tux = new Material(context.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+        mat_tux.setTexture("ColorMap",context.getAssetManager().loadTexture("models/tux/tux.png"));
         tuxModel.setMaterial(mat_tux);
         tuxModel.setLocalScale(5f);
         tuxModel.setLocalTranslation(new Vector3f(0,tuxModel.getLocalScale().y,0));
@@ -100,7 +98,6 @@ public class Tux implements ActionListener {
 
     @Override
     public void onAction(String binding, boolean isPressed, float tpf) {
-        //System.out.println("coorodnates : " + tuxNode.getLocalTranslation().x + " " + tuxNode.getLocalTranslation().y + " " + tuxNode.getLocalTranslation().z);
         if (binding.equals("Left")) {
             left = isPressed;
         } else if (binding.equals("Right")) {
