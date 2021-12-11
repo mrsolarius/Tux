@@ -28,11 +28,12 @@ public class GameLoop extends SimpleApplication {
         flyCam.setEnabled(false);
         setDisplayFps(false);
         setDisplayStatView(false);
+
         //Definition du statut en mode initialisation
         state = INIT;
         //Definition de l'emplacement de stockage des assets
         assetManager.registerLocator(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "assets", FileLocator.class);
-        //Initialisation de Nifty
+        //Initialisation des menus Nifty
         initNifty();
         //Fin de l'initialisation passage au statut menu
         state = MENU;

@@ -10,6 +10,7 @@ import com.jme3.texture.Texture;
 import com.jme3.util.SkyFactory;
 import fr.litopia.game.assets.factory.LettersFactory;
 import fr.litopia.game.assets.listeners.LettersListener;
+import fr.litopia.game.assets.movable.Letter;
 import fr.litopia.game.assets.movable.Tux;
 import fr.litopia.game.assets.scene.LetterPlot;
 import fr.litopia.game.assets.scene.Room;
@@ -45,11 +46,11 @@ public class GameFindWord extends GameLifeCycle implements LettersListener {
     @Override
     public void update(float fps) {
         tux.simpleUpdate();
-        if (chrono >= 50000){
+        if (chrono >= 500){
             if (!lettersFactory.isLetterSpawned())
                 lettersFactory.spawnLetters();
         }
-        if((chrono>=(200000+(partie.getMot().length()*50000+partie.getNiveau()*100000)))||
+        if((chrono>=(2000+(partie.getMot().length()*500+partie.getNiveau()*1000)))||
             letterFound.size()==partie.getMot().length()){
             cleanup();
         }
@@ -60,6 +61,10 @@ public class GameFindWord extends GameLifeCycle implements LettersListener {
     public void cleanup() {
         partie.setTemps(chrono);
         partie.setScore(score);
+
+        LetterPlot.resetCount();
+        Letter.resetCount();
+
         app.getRootNode().detachAllChildren();
         app.getStateManager().detach(getBulletAppState());
         app.getViewPort().setBackgroundColor(new ColorRGBA(0.7f, 0.8f, 1f, 1f));
@@ -74,7 +79,6 @@ public class GameFindWord extends GameLifeCycle implements LettersListener {
         bulletAppState.setSpeed(8f);
         app.getStateManager().attach(bulletAppState);
         getBulletAppState().startPhysics();
-        getBulletAppState().setDebugEnabled(true);
     }
 
     private void initGameScene(){

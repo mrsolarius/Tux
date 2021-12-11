@@ -7,6 +7,7 @@ package fr.litopia.game.core;
 
 import java.util.ArrayList;
 
+import com.jme3.system.AppSettings;
 import fr.litopia.game.assets.movable.Letter;
 
 /**
@@ -36,7 +37,16 @@ public class LanceurDeJeu {
         jeu = new JeuDevineLeMotOrdre();
         //Execute le jeu
         jeu.execute();*/
+        AppSettings settings = new AppSettings(true);
+        settings.setTitle("Tux Letter Game");
+        settings.setResolution(1920,1080);
+        settings.setFrameRate(120);
+        settings.setVSync(true);
+        settings.setBitsPerPixel(32);
+
         GameLoop testSimple = new GameLoop();
+        testSimple.setShowSettings(false);
+        testSimple.setSettings(settings);
         testSimple.start();
     }
 }

@@ -55,7 +55,7 @@ public class LetterPlot implements PhysicsCollisionListener {
         return currentLetter == exceptedLetter;
     }
 
-    public void resetCount(){
+    public static void resetCount(){
         count = 1;
     }
 

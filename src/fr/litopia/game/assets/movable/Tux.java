@@ -98,8 +98,6 @@ public class Tux implements ActionListener {
 
     @Override
     public void onAction(String binding, boolean isPressed, float tpf) {
-        System.out.println("Action : " + binding + " isPressed : " + isPressed);
-        //System.out.println("coorodnates : " + tuxNode.getLocalTranslation().x + " " + tuxNode.getLocalTranslation().y + " " + tuxNode.getLocalTranslation().z);
         if (binding.equals("Left")) {
             left = isPressed;
         } else if (binding.equals("Right")) {

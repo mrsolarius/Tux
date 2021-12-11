@@ -46,6 +46,10 @@ public class Letter {
         count++;
     }
 
+    public static void resetCount(){
+        count = 0;
+    }
+
     public char getLetter(){
         return letter;
     }
