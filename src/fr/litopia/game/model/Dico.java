@@ -30,6 +30,7 @@ public class Dico {
     private ArrayList<String> listeNiveau5;
     private String cheminFichierDico;
     public static String jeSuisUnBackSlashN = "\n";
+    public static final String PATH_DICO = "src/res/xml/dico.xml";
     
     public Dico(String cheminFichierDico){
         this.cheminFichierDico = cheminFichierDico;
@@ -102,11 +103,11 @@ public class Dico {
        }
    }
    
-   public void lireDictionnaireDOM(String path, String filename) throws SAXException, IOException{
+   public void lireDictionnaireDOM() throws SAXException, IOException{
        // crée un parser de type DOM
         DOMParser parser = new DOMParser();
         // parse le document XML correspondant au fichier filename dans le chemin path
-        parser.parse(path + filename);
+        parser.parse(PATH_DICO);
         // récupère l"instance de document
         Document doc = parser.getDocument();
         // récupère la liste des éléments nommés tr:pos

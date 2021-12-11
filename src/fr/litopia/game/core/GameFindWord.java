@@ -1,38 +1,63 @@
 package fr.litopia.game.core;
 
+import com.jme3.app.state.VideoRecorderAppState;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
+import com.jme3.system.Timer;
 import com.jme3.texture.Texture;
 import com.jme3.util.SkyFactory;
+import de.lessvoid.nifty.NiftyEventSubscriber;
+import de.lessvoid.nifty.controls.Label;
+import de.lessvoid.nifty.controls.TextField;
+import de.lessvoid.nifty.elements.events.NiftyMousePrimaryClickedEvent;
+import de.lessvoid.nifty.screen.Screen;
 import fr.litopia.game.assets.factory.LettersFactory;
 import fr.litopia.game.assets.listeners.LettersListener;
 import fr.litopia.game.assets.movable.Letter;
 import fr.litopia.game.assets.movable.Tux;
 import fr.litopia.game.assets.scene.LetterPlot;
 import fr.litopia.game.assets.scene.Room;
+import fr.litopia.game.gui.hud.PreGame;
+import fr.litopia.game.model.Dico;
 import fr.litopia.game.model.Partie;
 import fr.litopia.game.model.Profil;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GameFindWord extends GameLifeCycle implements LettersListener {
     private Profil profil;
-    private Partie partie;
+    public static Partie partie;
+    private Dico dico;
     private ArrayList<Integer> letterFound;
     private LettersFactory lettersFactory;
+    private int lastSecond=0;
     private int chrono;
     private int score;
     private Room room;
     private Tux tux;
+    private PreGame pregame;
 
-    public GameFindWord(String profileName, boolean profileIsNew, int level){
+    public GameFindWord(String profileName, int level){
+        constructorInit(profileName,level);
+    }
+
+    private void constructorInit(String profileName, int level) {
         letterFound = new ArrayList<>();
-        profil = new Profil(profileName, "1999/25/10", "default");
-        partie = new Partie(level,profil);
+        dico = new Dico("src/res/xml/dico.xml");
+        try {
+            dico.lireDictionnaireDOM();
+        }catch (Exception e){
+            Logger.getLogger(Profil.class.getName()).log(Level.SEVERE, null, e);
+        }
+        profil = new Profil(profileName);
+        partie = new Partie("11/12/2013",dico.getMotDepuisListeNiveau(level),level);
         lettersFactory = new LettersFactory(this, partie.getMot());
     }
 
@@ -41,27 +66,40 @@ public class GameFindWord extends GameLifeCycle implements LettersListener {
         super.init(app);
         intPhysic();
         initGameScene();
+        app.getTimer().reset();
+        app.getNifty().subscribeAnnotations(this);
+        app.getNifty().gotoScreen("PreGame");
+        state=GameState.CINEMATIC;
     }
 
     @Override
     public void update(float fps) {
-        tux.simpleUpdate();
-        if (chrono >= 500){
-            if (!lettersFactory.isLetterSpawned())
-                lettersFactory.spawnLetters();
+        if(state == GameState.GAME_RUNNING || state == GameState.CINEMATIC){
+            chrono = (int) app.getTimer().getTimeInSeconds();
+            tux.simpleUpdate();
+            if (chrono <= 10 && state == GameState.CINEMATIC) {
+                cinematicNumber();
+            }
+            if (chrono >= 10) {
+                if (!lettersFactory.isLetterSpawned()) {
+                    lettersFactory.spawnLetters();
+                    app.getTimer().reset();
+                    app.getNifty().gotoScreen("HUD");
+                }
+            }
+            if ((chrono >= (20 + (partie.getMot().length() * 5 + partie.getNiveau() * 10))) ||
+                    letterFound.size() == partie.getMot().length()) {
+                state = GameState.MENU;
+                app.getInputManager().setCursorVisible(true);
+                save();
+                app.getNifty().gotoScreen("EndGame");
+
+            }
         }
-        if((chrono>=(2000+(partie.getMot().length()*500+partie.getNiveau()*1000)))||
-            letterFound.size()==partie.getMot().length()){
-            cleanup();
-        }
-        chrono++;
     }
 
     @Override
     public void cleanup() {
-        partie.setTemps(chrono);
-        partie.setScore(score);
-
         LetterPlot.resetCount();
         Letter.resetCount();
 
@@ -71,7 +109,32 @@ public class GameFindWord extends GameLifeCycle implements LettersListener {
         app.getCamera().setFrustumPerspective(45.0F, (float)app.getCamera().getWidth() / (float)app.getCamera().getHeight(), 1.0F, 1000.0F);
         app.getCamera().setLocation(new Vector3f(0.0F, 0.0F, 10.0F));
         app.getCamera().lookAt(new Vector3f(0.0F, 0.0F, 0.0F), Vector3f.UNIT_Y);
-        app.endGame();
+    }
+
+    public void save(){
+        partie.setTemps(chrono);
+        partie.setScore(score);
+        partie.setTrouve(partie.getMot().length()-letterFound.size());
+        profil.ajouterPartie(partie);
+        profil.sauvegarder(profil.getName());
+    }
+
+    private void cinematicNumber(){
+        if(chrono==2 && chrono!=lastSecond){
+            app.getNifty().gotoScreen("PreGame1");
+        }else if(chrono==3 && chrono!=lastSecond){
+            app.getNifty().gotoScreen("PreGame2");
+        }else if(chrono==4 && chrono!=lastSecond){
+            app.getNifty().gotoScreen("PreGame3");
+        }else if(chrono==5 && chrono!=lastSecond){
+            app.getNifty().gotoScreen("PreGame4");
+        }else if(chrono==6 && chrono!=lastSecond){
+            app.getNifty().gotoScreen("PreGame5");
+        }else if(chrono==7 && chrono!=lastSecond){
+            app.getNifty().gotoScreen("PreGame6");
+            state = GameState.GAME_RUNNING;
+        }
+        lastSecond=chrono;
     }
 
     private void intPhysic(){
@@ -137,5 +200,22 @@ public class GameFindWord extends GameLifeCycle implements LettersListener {
                 }
             }
         }
+    }
+
+    @NiftyEventSubscriber(id="EndGameButtonReplay")
+    public void onReplayGameClick(String id, NiftyMousePrimaryClickedEvent event) {
+        save();
+        cleanup();
+        int level = partie.getNiveau();
+        constructorInit(this.profil.getName(),level);
+        init(this.app);
+    }
+
+    @NiftyEventSubscriber(id="EndGameButtonEnd")
+    public void onQuitGameClick(String id, NiftyMousePrimaryClickedEvent event) {
+        save();
+        cleanup();
+        app.getTimer().reset();
+        app.endGame();
     }
 }

@@ -8,7 +8,8 @@ import de.lessvoid.nifty.NiftyEventSubscriber;
 import de.lessvoid.nifty.controls.TextField;
 import de.lessvoid.nifty.elements.events.NiftyMousePrimaryClickedEvent;
 import de.lessvoid.nifty.screen.Screen;
-import fr.litopia.game.menu.MainMenu;
+import fr.litopia.game.gui.menu.MainMenu;
+import fr.litopia.game.model.Profil;
 
 import java.io.File;
 
@@ -18,6 +19,7 @@ public class GameLoop extends SimpleApplication {
     private Nifty nifty;
     private GameState state;
     private GameFindWord game;
+    public static Profil profil;
 
     /**
      * Initialisation de l'application
@@ -65,10 +67,8 @@ public class GameLoop extends SimpleApplication {
     public void onLoadPlayerButtonClick(String id, NiftyMousePrimaryClickedEvent event) {
         Screen screen = nifty.getScreen("LoadPlayer");
         TextField textField = screen.findNiftyControl("playerLoadField", TextField.class);
-        System.out.println("element with id [" + id + "] clicked at [" + event.getMouseX() +
-                ", " + event.getMouseY() + "] text : "+textField.getRealText());
-        game = new GameFindWord(textField.getRealText(),false,1);
-        initGame();
+        profil = new Profil(textField.getRealText());
+        nifty.gotoScreen("ChooseLevel");
     }
 
     /**
@@ -79,11 +79,26 @@ public class GameLoop extends SimpleApplication {
      */
     @NiftyEventSubscriber(id="NewPlayerButton")
     public void onNewPlayerButtonClick(String id, NiftyMousePrimaryClickedEvent event) {
-        Screen screen = nifty.getScreen("LoadPlayer");
-        TextField textField = screen.findNiftyControl("newPlayerField", TextField.class);
-        System.out.println("element with id [" + id + "] clicked at [" + event.getMouseX() +
-                ", " + event.getMouseY() + "]");
-        game = new GameFindWord(textField.getRealText(),true,1);
+        Screen screen = nifty.getScreen("NewPlayer");
+        TextField textField = screen.findNiftyControl("playerNewField", TextField.class);
+        profil = new Profil(textField.getRealText(),"25/10/1999");
+        profil.sauvegarder(textField.getRealText());
+        nifty.gotoScreen("ChooseLevel");
+    }
+
+    /**
+     * Callback appelé lorsque lors du clic sur le button "playButton"
+     * On peut alors lancer le jeu avec le nom du joueur
+     * @param id id du bouton
+     *
+     */
+    @NiftyEventSubscriber(id="playButton")
+    public void onPlayButtonClick(String id, NiftyMousePrimaryClickedEvent event) {
+        Screen screen = nifty.getScreen("ChooseLevel");
+        TextField textField = screen.findNiftyControl("playerLoadField", TextField.class);
+        System.out.println("text: "+textField.getRealText());
+        game = new GameFindWord(profil.getName(),Integer.parseInt(textField.getRealText()));
+        nifty.gotoScreen("PreGame");
         initGame();
     }
 
@@ -100,7 +115,7 @@ public class GameLoop extends SimpleApplication {
                 guiViewPort);
         nifty = niftyDisplay.getNifty();
         MainMenu startScreen = new MainMenu(this);
-        nifty.fromXml("/res/xml/HelloJme.xml", "MainMenu", startScreen);
+        nifty.fromXml("/res/xml/menus.xml", "MainMenu", startScreen);;
         nifty.subscribeAnnotations(this);
         //Lancement de Nifty
         guiViewPort.addProcessor(niftyDisplay);
@@ -135,5 +150,13 @@ public class GameLoop extends SimpleApplication {
         nifty.gotoScreen("MainMenu");
         //on affiche le curseur pour le voir apparaitre sur les menus
         inputManager.setCursorVisible(true);
+    }
+
+    public Nifty getNifty() {
+        return nifty;
+    }
+
+    public void setPause(boolean pause){
+        paused = pause;
     }
 }

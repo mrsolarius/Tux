@@ -5,4 +5,5 @@ public enum GameState {
     MENU,
     GAME_RUNNING,
     PAUSED,
+    CINEMATIC,
 }

@@ -5,6 +5,7 @@
  */
 package fr.litopia.game.model;
 
+import java.io.File;
 import java.util.ArrayList;
 import org.w3c.dom.Document;
 import fr.litopia.game.utils.XMLUtil;
@@ -12,6 +13,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import org.xmlpull.v1.builder.XmlDocument;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 /**
  *
@@ -23,21 +28,52 @@ public class Profil {
     private String avatar;
     private ArrayList<Partie> parties;
     public Document _doc;
+    public static final String PROFILE_PATH = "src/res/profil/save/";
 
     public Profil(String name, String birthdate) {
         this.name = name;
         this.birthdate = birthdate;
-        /*this.avatar = avatar;
-        this.parties = new ArrayList<>();*/
+        /*this.avatar = avatar;*/
+        this.parties = new ArrayList<>();
+        //Initialisation du document
+        try {
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+            _doc = docBuilder.newDocument();
+            // root elements
+            Element rootElement = _doc.createElement("profil");
+            _doc.appendChild(rootElement);
+
+            // nom elements
+            Element nom = _doc.createElement("nom");
+            nom.appendChild(_doc.createTextNode(name));
+            rootElement.appendChild(nom);
+
+            // anniversaire elements
+            Element anniversaire = _doc.createElement("anniversaire");
+            anniversaire.appendChild(_doc.createTextNode(XMLUtil.profileDateToXmlDate(birthdate)));
+            rootElement.appendChild(anniversaire);
+
+            // avatar elements
+            Element avatar = _doc.createElement("avatar");
+            avatar.appendChild(_doc.createTextNode("avatar"));
+            rootElement.appendChild(avatar);
+
+            // parties elements
+            Element parties = _doc.createElement("parties");
+            rootElement.appendChild(parties);
+        }catch (Exception ex) {
+            Logger.getLogger(Profil.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     // Cree un DOM à partir d'un fichier XML
     public Profil(String nomFichier) {
-        _doc = fromXML(nomFichier);
+        _doc = fromXML(PROFILE_PATH+nomFichier+".xml");
         // parsing à compléter
         this.name = _doc.getElementsByTagName("nom").item(0).getTextContent();
         this.avatar = _doc.getElementsByTagName("avatar").item(0).getTextContent();
-        this.birthdate = xmlDateToProfileDate(_doc.getElementsByTagName("anniversaire").item(0).getTextContent());
+        this.birthdate = XMLUtil.xmlDateToProfileDate(_doc.getElementsByTagName("anniversaire").item(0).getTextContent());
         int nbParties = _doc.getElementsByTagName("partie").getLength();
         this.parties = new ArrayList<>();
         for (int i = 0; i < nbParties; i++) {
@@ -48,6 +84,7 @@ public class Profil {
     }
     
     public void ajouterPartie(Partie p) {
+        _doc.getElementsByTagName("parties").item(0).appendChild(p.getPartie(_doc));
         this.parties.add(p);
     }
     
@@ -66,7 +103,7 @@ public class Profil {
     }
     
     public void sauvegarder(String filename) {
-        toXML(filename);
+        toXML(PROFILE_PATH+filename+".xml");
     }
 
     // Cree un DOM à partir d'un fichier XML
@@ -88,51 +125,33 @@ public class Profil {
         }
     }
 
-    /// Takes a date in XML format (i.e. ????-??-??) and returns a date
-    /// in profile format: dd/mm/yyyy
-    public static String xmlDateToProfileDate(String xmlDate) {
-        String date;
-        // récupérer le jour
-        date = xmlDate.substring(xmlDate.lastIndexOf("-") + 1, xmlDate.length());
-        date += "/";
-        // récupérer le mois
-        date += xmlDate.substring(xmlDate.indexOf("-") + 1, xmlDate.lastIndexOf("-"));
-        date += "/";
-        // récupérer l'année
-        date += xmlDate.substring(0, xmlDate.indexOf("-"));
-
-        return date;
-    }
-
-    /// Takes a date in profile format: dd/mm/yyyy and returns a date
-    /// in XML format (i.e. ????-??-??)
-    public static String profileDateToXmlDate(String profileDate) {
-        String date;
-        // Récupérer l'année
-        date = profileDate.substring(profileDate.lastIndexOf("/") + 1, profileDate.length());
-        date += "-";
-        // Récupérer  le mois
-        date += profileDate.substring(profileDate.indexOf("/") + 1, profileDate.lastIndexOf("/"));
-        date += "-";
-        // Récupérer le jour
-        date += profileDate.substring(0, profileDate.indexOf("/"));
-
-        return date;
-    }
-
-    
-    /*
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    //static methode that return arraylist of string base on eatch file in the folder
+    public static ArrayList<String> getAllProfileName() {
+        ArrayList<String> profiles = new ArrayList<>();
+        File folder = new File(PROFILE_PATH);
+        File[] listOfFiles = folder.listFiles();
+        for (File file : listOfFiles) {
+            if (file.isFile()) {
+                profiles.add(file.getName().replace(".xml", ""));
+            }
+        }
+        return profiles;
     }
 
     public String getBirthdate() {
         return birthdate;
     }
+
+    /*
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 
     public void setBirthdate(String birthdate) {
         this.birthdate = birthdate;

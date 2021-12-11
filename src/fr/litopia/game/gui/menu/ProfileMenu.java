@@ -1,19 +1,17 @@
-package fr.litopia.game.menu;
+package fr.litopia.game.gui.menu;
 
 import de.lessvoid.nifty.Nifty;
-import de.lessvoid.nifty.controls.TextField;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 
-public class LoadPlayerMenu implements ScreenController {
+public class ProfileMenu implements ScreenController {
     private Nifty nifty;
+    private Element popup;
 
     @Override
     public void bind(Nifty nifty, Screen screen) {
         this.nifty = nifty;
-        TextField textField = screen.findNiftyControl("playerLoadField", TextField.class);
-        textField.setEnabled(false);
     }
 
     @Override
@@ -26,7 +24,15 @@ public class LoadPlayerMenu implements ScreenController {
 
     }
 
-    public void back(){
-        nifty.gotoScreen("ProfileMenu");
+    public void newPlayer(){
+        nifty.gotoScreen("NewPlayer");
+    }
+
+    public void loadPlayer() {
+        nifty.gotoScreen("LoadPlayer");
+    }
+
+    public void back() {
+        nifty.gotoScreen("MainMenu");
     }
 }

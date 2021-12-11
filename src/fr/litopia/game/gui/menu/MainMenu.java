@@ -1,4 +1,4 @@
-package fr.litopia.game.menu;
+package fr.litopia.game.gui.menu;
 
 import com.jme3.app.SimpleApplication;
 import de.lessvoid.nifty.Nifty;

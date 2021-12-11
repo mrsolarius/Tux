@@ -37,6 +37,7 @@ and open the template in the editor.
         <sequence>
             <element name="temps" type="double" minOccurs="0"/>
             <element name="mot" type="tux:Mot" minOccurs="0" maxOccurs="unbounded"/>
+            <element name="score" type="int"/>
         </sequence>
         <attribute name="date" type="date" use="required"/>
         <attribute name="trouvé" type="tux:Percent"/>

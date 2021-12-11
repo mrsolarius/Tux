@@ -418,4 +418,37 @@ public class XMLUtil {
             return fromXSLTransformation(new StreamSource(xslFileName), doc);
         }
     }
+
+
+    /// Takes a date in XML format (i.e. ????-??-??) and returns a date
+    /// in profile format: dd/mm/yyyy
+    public static String xmlDateToProfileDate(String xmlDate) {
+        String date;
+        // récupérer le jour
+        date = xmlDate.substring(xmlDate.lastIndexOf("-") + 1, xmlDate.length());
+        date += "/";
+        // récupérer le mois
+        date += xmlDate.substring(xmlDate.indexOf("-") + 1, xmlDate.lastIndexOf("-"));
+        date += "/";
+        // récupérer l'année
+        date += xmlDate.substring(0, xmlDate.indexOf("-"));
+
+        return date;
+    }
+
+    /// Takes a date in profile format: dd/mm/yyyy and returns a date
+    /// in XML format (i.e. ????-??-??)
+    public static String profileDateToXmlDate(String profileDate) {
+        String date;
+        // Récupérer l'année
+        date = profileDate.substring(profileDate.lastIndexOf("/") + 1, profileDate.length());
+        date += "-";
+        // Récupérer  le mois
+        date += profileDate.substring(profileDate.indexOf("/") + 1, profileDate.lastIndexOf("/"));
+        date += "-";
+        // Récupérer le jour
+        date += profileDate.substring(0, profileDate.indexOf("/"));
+
+        return date;
+    }
 }
