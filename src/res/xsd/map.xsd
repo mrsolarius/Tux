@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://myGame/tux" xmlns="http://myGame/tux">
+    <!-- Definition de element racine -->
+    <xs:element name="map" type="mapType"/>
+
+    <!-- Definition du complex type mapType -->
+    <xs:complexType name="mapType">
+        <xs:all>
+            <xs:element type="mappingType" name="skybox" minOccurs="0"/>
+            <xs:element type="objectType" name="room" minOccurs="0"/>
+            <xs:element type="cubesType" name="cubes" minOccurs="0"/>
+            <xs:element type="plotsType" name="plots" minOccurs="0"/>
+            <xs:element type="tuxType" name="tux" minOccurs="0"/>
+        </xs:all>
+    </xs:complexType>
+
+    <xs:complexType name="plotsType">
+        <xs:sequence>
+            <xs:element type="objectType" name="plot"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="cubesType">
+        <xs:sequence>
+            <xs:element type="objectType" name="cube"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="tuxType">
+        <xs:sequence>
+            <xs:element type="vector" name="position"/>
+            <xs:element type="vector" name="rotation"/>
+            <xs:element type="path" name="texture"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Definition du complex type vecteur -->
+    <xs:complexType name="vector">
+        <xs:sequence>
+            <xs:element type="xs:float" name="x"/>
+            <xs:element type="xs:float" name="y"/>
+            <xs:element type="xs:float" name="z"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Definition du complex type mappingType -->
+    <xs:complexType name="mappingType">
+        <xs:all>
+            <xs:element type="path" name="textureBottom" minOccurs="0"/>
+            <xs:element type="path" name="textureEast" minOccurs="0"/>
+            <xs:element type="path" name="textureWest"  minOccurs="0"/>
+            <xs:element type="path" name="textureNorth" minOccurs="0"/>
+            <xs:element type="path" name="textureSouth" minOccurs="0"/>
+            <xs:element type="path" name="textureTop" minOccurs="0"/>
+        </xs:all>
+    </xs:complexType>
+
+    <!-- Definition du complex type objectType -->
+    <xs:complexType name="objectType">
+        <xs:sequence>
+            <xs:element type="xs:string" name="name"/>
+            <xs:element type="vector" name="position"/>
+            <xs:element type="vector" name="dimensions"/>
+            <xs:element type="mappingType" name="mapping"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- simple type qui verifies que le path et correct et possible
+    @see https://stackoverflow.com/a/16231969/12806467 -->
+    <xs:simpleType name="path">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="(^[a-z]:|)(([\\/])[a-z0-9\s_@\-^!#$%&amp;+={}\[\]]+)+\.png"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
+
