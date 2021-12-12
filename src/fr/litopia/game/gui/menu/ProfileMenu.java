@@ -11,6 +11,7 @@ public class ProfileMenu implements ScreenController {
 
     @Override
     public void bind(Nifty nifty, Screen screen) {
+        //appeler quand on à cliquer sur lancer une nouvelle partie depuis le menu principal
         this.nifty = nifty;
     }
 

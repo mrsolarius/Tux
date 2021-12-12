@@ -21,38 +21,42 @@ import fr.litopia.game.core.GameFindWord;
  * @author zaettal
  */
 public class Tux implements ActionListener {
-    private GameFindWord context;
-    private Node tuxNode;
-    private BetterCharacterControl tux;
-    private Geometry tuxModel;
-    private ChaseCamera chaseCam;
-    private boolean left = false, right = false, up = false, down = false, lastLeft = false, lastRight = false, lastUp = false, lastDown = false;
-    private Vector3f walkDirection = new Vector3f();
-    private Vector3f tempDirVector = new Vector3f();
-    private Vector3f tempRotateVector = new Vector3f();
-    private Vector3f camDir = new Vector3f();
-    private Vector3f camLeft = new Vector3f();
+    //Le contexte
+    private final GameFindWord context;
 
-    // Our movement speed
-    private float speed;
-    private float strafeSpeed;
-    private float headHeight;
+    private final BetterCharacterControl tux;
+
+    //Nos vectors pour les mouvements et la caméra
+    private final Vector3f walkDirection = new Vector3f();
+    private final Vector3f camLongitudinal = new Vector3f();
+    private final Vector3f camLateral = new Vector3f();
+
+    // variable permettant de savoir si on est en train de marcher et dans quelle direction
+    private boolean left = false, right = false, up = false, down = false, run = false;
+
+    // nos vitesses de déplacement
+    private final float speed;
+    private final float strafeSpeed;
+    private final float runMultiplier;
 
     public Tux(GameFindWord context) {
-        // set player speed
+        // Definition de la vitesses de deplacement
         speed = 6f;
         strafeSpeed = 4f;
-        headHeight = 3f;
+        runMultiplier = 4f;
         this.context = context;
 
-        tuxNode = new Node("Tux");
+        // On cree le tux
+        //Tux dans le monde
+        Node tuxNode = new Node("Tux");
 
-        tuxModel = (Geometry) context.getAssetManager().loadModel("models/tux/tux.obj");
+        // On charge le model
+        Geometry tuxModel = (Geometry) context.getAssetManager().loadModel("models/tux/tux.obj");
         Material mat_tux = new Material(context.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
         mat_tux.setTexture("ColorMap",context.getAssetManager().loadTexture("models/tux/tux.png"));
         tuxModel.setMaterial(mat_tux);
         tuxModel.setLocalScale(5f);
-        tuxModel.setLocalTranslation(new Vector3f(0,tuxModel.getLocalScale().y,0));
+        tuxModel.setLocalTranslation(new Vector3f(0, tuxModel.getLocalScale().y,0));
         tuxNode.attachChild(tuxModel);
 
         // Inisialisation de la phisique de Tux (CharacterControl)
@@ -66,8 +70,9 @@ public class Tux implements ActionListener {
         context.getBulletAppState().getPhysicsSpace().add(tuxNode);
         context.getRootNode().attachChild(tuxNode);
 
-
-        chaseCam = new ChaseCamera(context.getCamera(), tuxModel, context.getInputManager());
+        // On initialise la caméra de Tux (ChaseCamera)
+        //Camera de tux
+        ChaseCamera chaseCam = new ChaseCamera(context.getCamera(), tuxModel, context.getInputManager());
         chaseCam.setDragToRotate(false);
         chaseCam.setMinDistance(5f);
         chaseCam.setMaxDistance(100f);
@@ -79,8 +84,13 @@ public class Tux implements ActionListener {
         chaseCam.setSmoothMotion(true);
         chaseCam.setTrailingEnabled(true);
 
+        // On met en place les event listener
         setUpKeys();
     }
+
+    /**
+     * Permet de mettre en place les evenements de Tux
+     */
     private void setUpKeys() {
         context.getInputManager().addMapping("Left", new KeyTrigger(KeyInput.KEY_Q));
         context.getInputManager().addMapping("Right", new KeyTrigger(KeyInput.KEY_D));
@@ -96,75 +106,71 @@ public class Tux implements ActionListener {
         context.getInputManager().addListener(this, "Run");
     }
 
+    /**
+     * Permet de récupérer les evenement clavier
+     * @param binding le nom de l'evenement
+     * @param isPressed true si l'evenement est appuyé
+     * @param tpf le temps ecoulé depuis le dernier appel
+     */
     @Override
     public void onAction(String binding, boolean isPressed, float tpf) {
-        if (binding.equals("Left")) {
-            left = isPressed;
-        } else if (binding.equals("Right")) {
-            right= isPressed;
-        } else if (binding.equals("Up")) {
-            up = isPressed;
-        } else if (binding.equals("Down")) {
-            down = isPressed;
-        } else if (binding.equals("Jump")) {
-            if (isPressed) {
-                tux.jump();
-            }
-        }else if (binding.equals("Run")) {
-            if(isPressed){
-                speed = 24f;
-            }else {
-                speed = 6f;
-            }
+        // Pour chaque type de mouvement on met à jour la variable correspondante avec la valeur de isPressed
+        switch (binding) {
+            case "Left":
+                left = isPressed;
+                break;
+            case "Right":
+                right = isPressed;
+                break;
+            case "Up":
+                up = isPressed;
+                break;
+            case "Down":
+                down = isPressed;
+                break;
+            case "Jump":
+                //Si on appuie sur Espace on saute is pressed
+                if (isPressed) {
+                    tux.jump();
+                }
+                break;
+            case "Run":
+                run = isPressed;
+                break;
         }
     }
 
+    /**
+     * Permet de mettre à jour tux à chaque frame
+     */
     public void simpleUpdate() {
-        camDir.set(context.getCamera().getDirection()).multLocal(speed, 0.0f, speed);
-        camLeft.set(context.getCamera().getLeft()).multLocal(strafeSpeed);
+        // Si on est en mode run on multiplie la vitesse de déplacement par runMultiplier
+        // ici on met à jour les vecteurs lateral et longitudinal en fonction de l'angle de la caméra
+        if(run) {
+            camLongitudinal.set(context.getCamera().getDirection()).multLocal(speed * runMultiplier, 0.0f, speed * runMultiplier);
+            camLateral.set(context.getCamera().getLeft()).multLocal(strafeSpeed*(runMultiplier/2.0f));
+        }else {
+            camLongitudinal.set(context.getCamera().getDirection()).multLocal(speed, 0.0f, speed);
+            camLateral.set(context.getCamera().getLeft()).multLocal(strafeSpeed);
+        }
+        // On initialise le vecteur de déplacement à 0
         walkDirection.set(0, 0, 0);
+        // pour chaque direction on ajoute la valeur lateral ou longitudinal ou leur opposé.
         if (left) {
-            walkDirection.addLocal(camLeft);
+            walkDirection.addLocal(camLateral);
         }
         if (right) {
-            walkDirection.addLocal(camLeft.negate());
+            walkDirection.addLocal(camLateral.negate());
         }
         if (up) {
-            walkDirection.addLocal(camDir);
+            walkDirection.addLocal(camLongitudinal);
         }
         if (down) {
-            walkDirection.addLocal(camDir.negate());
+            walkDirection.addLocal(camLongitudinal.negate());
         }
+        // On met à jour le vecteur de déplacement dans tux
         tux.setWalkDirection(walkDirection);
-        tux.setViewDirection(camDir);
-    }
-
-    private void updateTempVector(){
-        tempRotateVector.set(tux.getViewDirection()).multLocal(0.1f);
-        tempDirVector.set(tux.getViewDirection()).multLocal(0.1f);
-    }
-
-    private void restLastVal(){
-        lastLeft = false; lastRight = false; lastUp = false; lastDown = false;
-    }
-
-    public float getX(){
-        return tuxModel.getLocalTranslation().x;
-    }
-
-    public float getY(){
-        return tuxModel.getLocalTranslation().y;
-    }
-
-    public float getZ(){
-        return tuxModel.getLocalTranslation().z;
-    }
-
-    public float getScale(){
-        return tuxModel.getLocalScale().getY();
-    }
-
-    public Geometry getSpatial() {
-        return tuxModel;
+        // On mes à jour la rotation de tux pour qu'il soit toujours dos à la caméra
+        tux.setViewDirection(camLongitudinal);
     }
 }

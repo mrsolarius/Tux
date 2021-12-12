@@ -3,5 +3,6 @@ package fr.litopia.game.assets.listeners;
 import fr.litopia.game.assets.scene.LetterPlot;
 
 public interface LettersListener {
-    public void updateLetter(LetterPlot lettrePlot);
+    //Appeler lorsqu'une lettre touche un plot
+    void updateLetter(LetterPlot lettrePlot);
 }

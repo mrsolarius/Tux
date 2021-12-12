@@ -5,7 +5,6 @@
  */
 package fr.litopia.game.model;
 
-import com.jme3.app.SimpleApplication;
 import com.sun.org.apache.xerces.internal.parsers.DOMParser;
 
 import java.util.ArrayList;
@@ -23,22 +22,20 @@ import org.xml.sax.SAXException;
  * @author volatlo
  */
 public class Dico {
-    private ArrayList<String> listeNiveau1;
-    private ArrayList<String> listeNiveau2;
-    private ArrayList<String> listeNiveau3;
-    private ArrayList<String> listeNiveau4;
-    private ArrayList<String> listeNiveau5;
-    private String cheminFichierDico;
+    private final ArrayList<String> listeNiveau1;
+    private final ArrayList<String> listeNiveau2;
+    private final ArrayList<String> listeNiveau3;
+    private final ArrayList<String> listeNiveau4;
+    private final ArrayList<String> listeNiveau5;
     public static String jeSuisUnBackSlashN = "\n";
     public static final String PATH_DICO = "src/res/xml/dico.xml";
     
     public Dico(String cheminFichierDico){
-        this.cheminFichierDico = cheminFichierDico;
-        listeNiveau1 = new ArrayList<String>();
-        listeNiveau2 = new ArrayList<String>();
-        listeNiveau3 = new ArrayList<String>();
-        listeNiveau4 = new ArrayList<String>();
-        listeNiveau5 = new ArrayList<String>();
+        listeNiveau1 = new ArrayList<>();
+        listeNiveau2 = new ArrayList<>();
+        listeNiveau3 = new ArrayList<>();
+        listeNiveau4 = new ArrayList<>();
+        listeNiveau5 = new ArrayList<>();
     }
     
     private String getMotDepuisListe(ArrayList<String> list){
@@ -46,7 +43,7 @@ public class Dico {
         return list.get(Math.round((float)r.get()));
     }
     
-    private int vérifieNiveau(int niveau){
+    private int checkNiveau(int niveau){
         int val;
         if(niveau >= 1 && niveau<=5) {
             val=niveau;
@@ -59,7 +56,7 @@ public class Dico {
    public String getMotDepuisListeNiveau(int niveau){
        String word = "";
        Random r;
-       switch(vérifieNiveau(niveau)){
+       switch(checkNiveau(niveau)){
            case 1:
                word = getMotDepuisListe(listeNiveau1);
                break;
@@ -82,7 +79,7 @@ public class Dico {
    }
    
    public void ajouteMotADico(int niveau, String mot){
-       switch(vérifieNiveau(niveau)){
+       switch(checkNiveau(niveau)){
            case 1:
                listeNiveau1.add(mot);
                break;
@@ -118,7 +115,6 @@ public class Dico {
             Node node = elements.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 char rapport = ((Element) node).getAttribute("niveau").charAt(0);
-                System.out.println(rapport);
                 switch(rapport){
                     case '1':
                         listeNiveau1.add(node.getTextContent());
@@ -141,12 +137,12 @@ public class Dico {
    }
 
    public String appelCoursier(ArrayList<String> arr){
-       String coursier = "";
+       StringBuilder coursier = new StringBuilder();
        for (String courier : arr) {
-           coursier+=courier;
-           coursier+=jeSuisUnBackSlashN;
+           coursier.append(courier);
+           coursier.append(jeSuisUnBackSlashN);
        }
-       return coursier;
+       return coursier.toString();
    }
    
     @Override

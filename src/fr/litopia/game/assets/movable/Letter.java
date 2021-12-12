@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.litopia.game.assets.movable;
 
 import com.jme3.bullet.collision.shapes.CollisionShape;
@@ -17,19 +12,18 @@ import fr.litopia.game.core.GameFindWord;
  * @author zaettal
  */
 public class Letter {
-    private GameFindWord context;
-    private char letter;
-    private Spatial cube;
-    private RigidBodyControl physics;
-    private String id;
+    private final char letter;
+    //Compteur d'instances de lettres permet de leur donnée un id unique utiliser dans bullet physics
     private static int count = 0;
     
     public Letter(GameFindWord context, char l, float x, float z){
-        this.context = context;
         this.letter = l;
-        this.id = "L"+l+count;
-        cube = context.getAssetManager().loadModel("models/cube/cube.obj");
+        String id = "L" + l + count;
+
+        //Création du cube
+        Spatial cube = context.getAssetManager().loadModel("models/cube/cube.obj");
         Material mat_cube = new Material(context.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+        //on change sa texture en fonction de la lettre
         if(l>='a'&& l<='z')
             mat_cube.setTexture("ColorMap",context.getAssetManager().loadTexture("/models/cube/"+l+".png"));
         else
@@ -37,40 +31,33 @@ public class Letter {
         cube.setMaterial(mat_cube);
         cube.setLocalTranslation(x,(float)context.getRoom().getHeight()*2,z);
         cube.scale(4f);
-        cube.setName(this.id);
+        cube.setName(id);
+
+        //initialisation de la physique
         CollisionShape cubeShapeCollide = CollisionShapeFactory.createBoxShape(cube);
-        physics = new RigidBodyControl(cubeShapeCollide, 1f);
+        RigidBodyControl physics = new RigidBodyControl(cubeShapeCollide, 8f);
         cube.addControl(physics);
+
+        //ajout de la lettre au monde physique
         context.getRootNode().attachChild(cube);
         context.getBulletAppState().getPhysicsSpace().add(physics);
+
+        //incrementation du compteur d'instances
         count++;
     }
 
+    /**
+     * Permet de réinitialiser le compteur d'instances
+     */
     public static void resetCount(){
         count = 0;
     }
 
+    /**
+     * permet de récupérer la lettre
+     * @return lettre : char
+     */
     public char getLetter(){
         return letter;
-    }
-
-    public float getX(){
-        return cube.getLocalTranslation().getX();
-    }
-
-    public float getZ(){
-        return cube.getLocalTranslation().getZ();
-    }
-
-    public float getY(){
-        return cube.getLocalTranslation().getY();
-    }
-
-    public Spatial getCube() {
-        return cube;
-    }
-
-    public void remove() {
-        cube.removeFromParent();
     }
 }

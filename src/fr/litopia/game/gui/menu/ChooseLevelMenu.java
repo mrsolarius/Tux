@@ -19,6 +19,7 @@ public class ChooseLevelMenu implements ScreenController {
 
     @Override
     public void bind(Nifty nifty, Screen screen) {
+        // Et appeler lorsque lon veut choisir un niveau
         this.nifty = nifty;
         textField = screen.findNiftyControl("playerLoadField", TextField.class);
         textField.setEnabled(false);

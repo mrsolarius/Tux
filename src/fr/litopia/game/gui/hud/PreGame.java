@@ -10,18 +10,17 @@ import fr.litopia.game.core.GameFindWord;
 public class PreGame implements ScreenController {
     private static Nifty nifty;
     private Label preloaderTxt;
-    private Boolean connected=false;
 
     @Override
     public void bind(Nifty nifty, Screen screen) {
-        System.out.println("bind");
+        // Et appeler lorsque le mot et afficher au début de la partie
         PreGame.nifty = nifty;
         preloaderTxt = screen.findNiftyControl("PreloaderWord", Label.class);
-        connected = true;
     }
 
     @Override
     public void onStartScreen() {
+        //Si la partie est en cours on affiche le mot à trouver
         if(GameFindWord.partie!=null){
             preloaderTxt.setText(GameFindWord.partie.getMot());
         }

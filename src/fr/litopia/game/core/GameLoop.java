@@ -96,7 +96,6 @@ public class GameLoop extends SimpleApplication {
     public void onPlayButtonClick(String id, NiftyMousePrimaryClickedEvent event) {
         Screen screen = nifty.getScreen("ChooseLevel");
         TextField textField = screen.findNiftyControl("playerLoadField", TextField.class);
-        System.out.println("text: "+textField.getRealText());
         game = new GameFindWord(profil.getName(),Integer.parseInt(textField.getRealText()));
         nifty.gotoScreen("PreGame");
         initGame();
@@ -115,7 +114,8 @@ public class GameLoop extends SimpleApplication {
                 guiViewPort);
         nifty = niftyDisplay.getNifty();
         MainMenu startScreen = new MainMenu(this);
-        nifty.fromXml("/res/xml/menus.xml", "MainMenu", startScreen);;
+        nifty.fromXml("/res/xml/menus.xml", "MainMenu", startScreen);
+        //Souscription à l'observer
         nifty.subscribeAnnotations(this);
         //Lancement de Nifty
         guiViewPort.addProcessor(niftyDisplay);

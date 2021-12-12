@@ -14,29 +14,12 @@ import org.w3c.dom.Element;
  * @author zaettal
  */
 public class Partie {
-    private String date;
-    private String mot;
-    //private Profil profil;
+    private final String date;
+    private final String mot;
     private int niveau;
     private int trouve;
     private float temps;
     private int score;
-    //private Dico dico;
-
-    /*public Partie(int niveau, Profil profil) {
-        dico = new Dico("src/res/xml/dico.xml");
-        try {
-            dico.lireDictionnaireDOM("src/res/xml/", "dico.xml");
-        } catch (SAXException ex) {
-            Logger.getLogger(LanceurDeJeu.class.getName()).log(Level.parse("Ici"+ Level.SEVERE), null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(LanceurDeJeu.class.getName()).log(Level.parse("là"+ Level.SEVERE), null, ex);
-        }
-        this.profil = profil;
-        this.date = DateFormat.getDateTimeInstance().format(new Date());
-        this.niveau = niveau;
-        this.mot = dico.getMotDepuisListeNiveau(niveau);
-    }*/
     
     public Partie(String date, String mot, int niveau) {
         this.date = date;
@@ -65,7 +48,7 @@ public class Partie {
         nouvellePartie.setAttribute("date", XMLUtil.profileDateToXmlDate(date));
         // si le joueur n'a pas tout trouvé, alors on affiche son % de lettres trouvées
         if(trouve!=100) {
-            nouvellePartie.setAttribute("trouvé", String.valueOf(trouve)+"%");
+            nouvellePartie.setAttribute("trouvé", trouve +"%");
         }
         // Sinon, on ajoute un element temps qui indiquera en cb de temps le mot a été trouvé
         else 
@@ -101,14 +84,13 @@ public class Partie {
         this.temps = temps;
     }
 
-
-    /*public String getMot() {
-        return mot;
-    }*/
-
     @Override
     public String toString(){
         return "Date : "+date+" Mot : "+mot+" Niveau : "+niveau+" Trouve : "+trouve+" Temps : "+temps;
+    }
+
+    public int getMaxTime(){
+        return (20 + (mot.length() * 8 + niveau * 10));
     }
 
     public String getMot() {
@@ -117,5 +99,17 @@ public class Partie {
 
     public void setScore(int score) {
         this.score=score;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public int getTrouve() {
+        return trouve;
+    }
+
+    public float getTemps() {
+        return temps;
     }
 }

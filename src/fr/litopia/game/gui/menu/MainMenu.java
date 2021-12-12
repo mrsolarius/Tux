@@ -7,11 +7,12 @@ import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.elements.Element;
 
 public class MainMenu implements ScreenController {
-    private SimpleApplication jeu;
+    private final SimpleApplication jeu;
     private Nifty nifty;
     private Element popup;
 
     public MainMenu(SimpleApplication jeu) {
+        // et appelé au lancement de l'application
         this.jeu = jeu;
     }
 

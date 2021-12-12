@@ -20,6 +20,7 @@ public class LoadPlayerMenu implements ScreenController {
 
     @Override
     public void bind(Nifty nifty, Screen screen) {
+        //Et appeler pour choisir un joueur dans la liste de joueurs
         this.nifty = nifty;
         TextField textField = screen.findNiftyControl("playerLoadField", TextField.class);
         textField.setEnabled(false);

@@ -30,6 +30,7 @@ public abstract class GameLifeCycle {
     public InputManager getInputManager() {
         return app.getInputManager();
     }
+
     public abstract void update(float fps);
     public abstract void cleanup();
 

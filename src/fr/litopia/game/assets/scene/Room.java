@@ -21,14 +21,9 @@ import fr.litopia.game.core.GameFindWord;
  * @author zaettal
  */
 public class Room {
-    private Spatial floor;
-    private Spatial wallNorth;
-    private Spatial wallEast;
-    private Spatial wallSouth;
-    private Spatial wallWest;
-    private int depth = 200;
-    private int height = 200;
-    private int width = 200;
+    private final int depth;
+    private final int height;
+    private final int width;
     private final GameFindWord context;
 
     public Room(GameFindWord context, int width, int depth, int height, String textureBottom, String textureNorth, String textureEast, String textureSouth, String textureWest) {
@@ -39,7 +34,7 @@ public class Room {
         this.context = context;
         //definition du sol
         Box boxFloor = new Box(width, 10, depth);
-        floor = new Geometry("Floor", boxFloor);
+        Spatial floor = new Geometry("Floor", boxFloor);
         floor.setLocalTranslation(0, -boxFloor.yExtent, 0);
         floor.setMaterial(generateMaterial(textureBottom));
         CollisionShape sceneShapeFloor = CollisionShapeFactory.createMeshShape(floor);
@@ -57,7 +52,7 @@ public class Room {
         mat2.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
         mat2.setColor("Color", new ColorRGBA(0, 1, 0, 0.01f));
 
-        wallNorth = new Geometry("WallNorth", boxNS);
+        Spatial wallNorth = new Geometry("WallNorth", boxNS);
         wallNorth.setLocalTranslation(10, height, -depth);
         wallNorth.setMaterial(mat2);
         CollisionShape sceneShapeNorth = CollisionShapeFactory.createBoxShape(wallNorth);
@@ -65,7 +60,7 @@ public class Room {
         //context.getRootNode().attachChild(wallNorth);
         context.getBulletAppState().getPhysicsSpace().add(wallNorth);
 
-        wallEast = new Geometry("WallEast", boxEW);
+        Spatial wallEast = new Geometry("WallEast", boxEW);
         wallEast.setLocalTranslation(width, height, 10);
         wallEast.setMaterial(mat2);
         CollisionShape sceneShapeEast = CollisionShapeFactory.createBoxShape(wallEast);
@@ -74,7 +69,7 @@ public class Room {
         context.getBulletAppState().getPhysicsSpace().add(wallEast);
 
 
-        wallSouth = new Geometry("WallSouth", boxNS);
+        Spatial wallSouth = new Geometry("WallSouth", boxNS);
         wallSouth.setLocalTranslation(10, height, depth);
         wallSouth.setMaterial(mat2);
         CollisionShape sceneShape = CollisionShapeFactory.createBoxShape(wallSouth);
@@ -82,7 +77,7 @@ public class Room {
         //context.getRootNode().attachChild(wallSouth);
         context.getBulletAppState().getPhysicsSpace().add(wallSouth);
 
-        wallWest = new Geometry("WallWest", boxEW);
+        Spatial wallWest = new Geometry("WallWest", boxEW);
         wallWest.setLocalTranslation(-width, height, 10);
         wallWest.setMaterial(mat2);
         CollisionShape sceneShapeWest = CollisionShapeFactory.createBoxShape(wallWest);
@@ -91,6 +86,11 @@ public class Room {
         context.getBulletAppState().getPhysicsSpace().add(wallWest);
     }
 
+    /**
+     * Fonction permetant de generer un materiel a partir d'une texture
+     * @param texture : nom de la texture
+     * @return Material : le materiel generate a partir de la texture
+     */
     private Material generateMaterial(String texture) {
         Material material = new Material(context.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
         material.setTexture("ColorMap",context.getAssetManager().loadTexture(texture));

@@ -12,8 +12,6 @@ import fr.litopia.game.utils.XMLUtil;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xmlpull.v1.builder.XmlDocument;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -23,10 +21,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
  * @author zaettal
  */
 public class Profil {
-    private String name;
-    private String birthdate;
+    private final String name;
+    private final String birthdate;
     private String avatar;
-    private ArrayList<Partie> parties;
+    private final ArrayList<Partie> parties;
     public Document _doc;
     public static final String PROFILE_PATH = "src/res/profil/save/";
 
@@ -95,11 +93,11 @@ public class Profil {
     
     @Override
     public String toString() {
-        String s = "Nom : "+name+" Date de naissance : "+birthdate+" Avatar : "+avatar+" parties :";
+        StringBuilder s = new StringBuilder("Nom : " + name + " Date de naissance : " + birthdate + " Avatar : " + avatar + " parties :");
         for (Partie party : parties) {
-            s+= "\n\t"+party.toString();
+            s.append("\n\t").append(party.toString());
         }
-        return s;
+        return s.toString();
     }
     
     public void sauvegarder(String filename) {
@@ -134,6 +132,7 @@ public class Profil {
         ArrayList<String> profiles = new ArrayList<>();
         File folder = new File(PROFILE_PATH);
         File[] listOfFiles = folder.listFiles();
+        assert listOfFiles != null;
         for (File file : listOfFiles) {
             if (file.isFile()) {
                 profiles.add(file.getName().replace(".xml", ""));
@@ -145,33 +144,5 @@ public class Profil {
     public String getBirthdate() {
         return birthdate;
     }
-
-    /*
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
-    public void setBirthdate(String birthdate) {
-        this.birthdate = birthdate;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public ArrayList<Partie> getParties() {
-        return parties;
-    }
-
-    public void setParties(ArrayList<Partie> parties) {
-        this.parties = parties;
-    }
-    */
 
 }
