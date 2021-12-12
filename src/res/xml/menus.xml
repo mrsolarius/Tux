@@ -3,9 +3,9 @@
        xsi:schemaLocation="http://nifty-gui.lessvoid.com/nifty-gui ../xsd/nifty.xsd">
     <useStyles filename="nifty-default-styles.xml"/>
     <useControls filename="nifty-default-controls.xml"/>
-    <screen id="MainMenu" controller="fr.litopia.game.gui.menu.MainMenu">
+    <screen id="MainMenu" controller="fr.litopia.tux.game.gui.menu.MainMenu">
         <layer id="background" childLayout="center">
-            <image filename="MainMenu.png"/>
+            <image filename="assets/MainMenu.png"/>
         </layer>
         <layer id="foreground" childLayout="vertical">
             <panel id="startPanel" childLayout="horizontal" height="50%" width="100%">
@@ -39,9 +39,9 @@
             </panel>
         </layer>
     </screen>
-    <screen id="ProfileMenu" controller="fr.litopia.game.gui.menu.ProfileMenu">
+    <screen id="ProfileMenu" controller="fr.litopia.tux.game.gui.menu.ProfileMenu">
         <layer id="background" childLayout="center">
-            <image filename="MainMenu.png"/>
+            <image filename="assets/MainMenu.png"/>
         </layer>
         <layer id="foreground" childLayout="vertical">
             <panel id="profilePanel" childLayout="horizontal" height="50%" width="100%">
@@ -77,9 +77,9 @@
             </panel>
         </layer>
     </screen>
-    <screen id="NewPlayer" controller="fr.litopia.game.gui.menu.NewPlayerMenu">
+    <screen id="NewPlayer" controller="fr.litopia.tux.game.gui.menu.NewPlayerMenu">
         <layer id="background" childLayout="center">
-            <image filename="MainMenu.png"/>
+            <image filename="assets/MainMenu.png"/>
         </layer>
         <layer id="newPlayer_container" childLayout="center">
             <effect>
@@ -117,9 +117,9 @@
             </panel>
         </layer>
     </screen>
-    <screen id="LoadPlayer" controller="fr.litopia.game.gui.menu.LoadPlayerMenu">
+    <screen id="LoadPlayer" controller="fr.litopia.tux.game.gui.menu.LoadPlayerMenu">
         <layer id="background" childLayout="center">
-            <image filename="MainMenu.png"/>
+            <image filename="assets/MainMenu.png"/>
         </layer>
         <layer id="LoadPlayer_container" childLayout="center">
             <effect>
@@ -171,9 +171,9 @@
             </panel>
         </layer>
     </screen>
-    <screen id="ChooseLevel" controller="fr.litopia.game.gui.menu.ChooseLevelMenu">
+    <screen id="ChooseLevel" controller="fr.litopia.tux.game.gui.menu.ChooseLevelMenu">
         <layer id="background" childLayout="center">
-            <image filename="MainMenu.png"/>
+            <image filename="assets/MainMenu.png"/>
         </layer>
         <layer id="LoadPlayer_container" childLayout="center">
             <effect>
@@ -279,7 +279,7 @@
             </control>
         </layer>
     </screen>
-    <screen id="PreGame6" controller="fr.litopia.game.gui.hud.PreGame">
+    <screen id="PreGame6" controller="fr.litopia.tux.game.gui.hud.PreGame">
         <layer id="transparentBack" align="center" childLayout="center">
             <effect>
                 <onStartScreen name="move" mode="in" direction="bottom" length="150" startDelay="0"
@@ -298,7 +298,7 @@
             </panel>
         </layer>
     </screen>
-    <screen id="HUD" controller="fr.litopia.game.gui.hud.HUD">
+    <screen id="HUD" controller="fr.litopia.tux.game.gui.hud.HUD">
         <layer id="transparentBack" align="center" childLayout="horizontal">
             <effect>
                 <onStartScreen name="fade" start="#0" end="#f" length="1000"/>
@@ -324,7 +324,7 @@
                 </panel>
         </layer>
     </screen>
-    <screen id="EndGame" controller="fr.litopia.game.gui.hud.EndGame">
+    <screen id="EndGame" controller="fr.litopia.tux.game.gui.hud.EndGame">
         <layer align="center" childLayout="center">
             <effect>
                 <onStartScreen name="move" mode="in" direction="bottom" length="150" startDelay="0"
