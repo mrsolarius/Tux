@@ -6,10 +6,8 @@ import fr.litopia.tux.game.utils.Random;
 
 import fr.litopia.tux.game.objects.movable.Letter;
 import fr.litopia.tux.game.objects.scene.LetterPlot;
-
-import java.text.Normalizer;
+import fr.litopia.tux.game.utils.Word;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 public class LettersFactory {
     private final ArrayList<Letter> letters;
@@ -25,7 +23,7 @@ public class LettersFactory {
      */
     public LettersFactory(GameFindWord context, String word) {
         this.context = context;
-        this.word = normalize(word.toLowerCase());
+        this.word = Word.normalize(word.toLowerCase());
         this.isLetterSpawned = false;
         letters = new ArrayList<>();
         plots = new ArrayList<>();
@@ -78,14 +76,4 @@ public class LettersFactory {
         return isLetterSpawned;
     }
 
-    /**
-     * Permet de normaliser le mot en supprimant les accents et les caractères spéciaux
-     * @param str : String à normaliser
-     * @return str : String normalisé
-     */
-    public String normalize(String str) {
-        String normalized = Normalizer.normalize(str, Normalizer.Form.NFD);
-        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
-        return pattern.matcher(normalized).replaceAll("");
-    }
 }

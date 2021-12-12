@@ -5,6 +5,7 @@ import de.lessvoid.nifty.controls.Label;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import fr.litopia.tux.game.core.GameFindWord;
+import fr.litopia.tux.game.utils.Word;
 
 public class PreGame implements ScreenController {
     private static Nifty nifty;
@@ -21,7 +22,7 @@ public class PreGame implements ScreenController {
     public void onStartScreen() {
         //Si la partie est en cours on affiche le mot à trouver
         if(GameFindWord.partie!=null){
-            preloaderTxt.setText(GameFindWord.partie.getMot());
+            preloaderTxt.setText(Word.normalize(GameFindWord.partie.getMot()));
         }
     }
 
