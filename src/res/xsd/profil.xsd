@@ -36,7 +36,7 @@ and open the template in the editor.
     <complexType name="Partie">
         <sequence>
             <element name="temps" type="double" minOccurs="0"/>
-            <element name="mot" type="tux:Mot" minOccurs="0" maxOccurs="unbounded"/>
+            <element name="mot" type="tux:Mot"/>
             <element name="score" type="int"/>
         </sequence>
         <attribute name="date" type="date" use="required"/>
