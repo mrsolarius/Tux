@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://myGame/tux" xmlns="http://myGame/tux">
     <!-- Import du dico pour récupérer le simpleType Mot -->
     <xs:include schemaLocation="dico.xsd"/>
@@ -10,8 +11,8 @@
         <xs:sequence>
             <xs:element type="xs:string" name="nom"/>
             <xs:element type="Mot" name="mot"/>
-            <xs:element type="xs:byte" name="niveau"/>
-            <xs:element type="xs:byte" name="temps"/>
+            <xs:element type="xs:integer" name="niveau"/>
+            <xs:element type="xs:integer" name="temps"/>
         </xs:sequence>
         <xs:attribute type="xs:date" name="date"/>
     </xs:complexType>
