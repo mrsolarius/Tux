@@ -67,7 +67,7 @@ public class Partie {
         score.setTextContent(String.valueOf(this.score));
         nouvellePartie.appendChild(score);
 
-        doc.getElementsByTagName("parties").item(0).appendChild(nouvellePartie);
+        //doc.getElementsByTagName("parties").item(0).appendChild(nouvellePartie);
         return nouvellePartie;
     }
 

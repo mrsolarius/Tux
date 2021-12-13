@@ -236,7 +236,7 @@ public class GameFindWord extends GameLifeCycle implements LettersListener {
      */
     public void save() {
         updatePartie();
-        profil.ajouterPartie(partie);
+        profil.addNewPartie(partie);
         profil.sauvegarder(profil.getName());
     }
 

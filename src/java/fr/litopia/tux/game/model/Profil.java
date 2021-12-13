@@ -82,8 +82,12 @@ public class Profil {
     }
     
     public void ajouterPartie(Partie p) {
-        _doc.getElementsByTagName("parties").item(0).appendChild(p.getPartie(_doc));
         this.parties.add(p);
+    }
+
+    public void addNewPartie(Partie p) {
+        this.parties.add(p);
+        _doc.getElementsByTagName("parties").item(0).appendChild(p.getPartie(_doc));
     }
     
     public int getDernierNiveau() {
