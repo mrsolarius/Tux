@@ -6,6 +6,11 @@
 package fr.litopia.tux.game.core;
 
 import com.jme3.system.AppSettings;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -13,7 +18,9 @@ import com.jme3.system.AppSettings;
  */
 public class GameLauncher {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        String pathRes = System.getProperty("user.dir") + File.separator + "src" + File.separator + "res"+File.separator+"assets";
+        
         // Deffinition des options de l'application
         AppSettings settings = new AppSettings(true);
         settings.setTitle("Tux Letter Game");
@@ -25,13 +32,27 @@ public class GameLauncher {
         //definition des couleurs en 32bits
         settings.setBitsPerPixel(32);
 
+        //Mise en pleine écran
+        settings.setFullscreen(true);
+
+        //Chargement de l'icone de l'application
+        BufferedImage[] icons = new BufferedImage[] {
+            ImageIO.read(new FileInputStream(pathRes+File.separator+"ico"+File.separator+"ico-128.png")),
+            ImageIO.read(new FileInputStream(pathRes+File.separator+"ico"+File.separator+"ico-64.png")),
+            ImageIO.read(new FileInputStream(pathRes+File.separator+"ico"+File.separator+"ico-32.png")),
+            ImageIO.read(new FileInputStream(pathRes+File.separator+"ico"+File.separator+"ico-16.png"))
+        };
+        settings.setIcons(icons);
+        //Deactivation de l'image par défaut
+        settings.setSettingsDialogImage("");
+        
         //Instanciation du jeu
-        GameLoop testSimple = new GameLoop();
+        GameLoop gameLoop = new GameLoop();
         //Parametrage du jeu avec les options définies
-        testSimple.setShowSettings(false);
-        testSimple.setSettings(settings);
+        gameLoop.setShowSettings(true);
+        gameLoop.setSettings(settings);
 
         //Lancement du jeu !!!
-        testSimple.start();
+        gameLoop.start();
     }
 }

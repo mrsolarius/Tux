@@ -43,6 +43,7 @@ public class GameLoop extends SimpleApplication {
         //Récupération de la music de menu
         music = new AudioNode(assetManager, "sounds/music/minecraftmusicmenu.wav");
         music.setLooping(true);
+        music.setVolume(4f);
         getAudioRenderer().playSource(music);
         //Fin de l'initialisation passage au statut menu
         state = MENU;
