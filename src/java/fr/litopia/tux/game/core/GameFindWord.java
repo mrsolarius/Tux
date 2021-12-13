@@ -1,5 +1,7 @@
 package fr.litopia.tux.game.core;
 
+import com.jme3.audio.AudioNode;
+import com.jme3.audio.AudioSource;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.light.AmbientLight;
 import com.jme3.math.ColorRGBA;
@@ -36,6 +38,14 @@ public class GameFindWord extends GameLifeCycle implements LettersListener {
     private ArrayList<Integer> letterFound;
     private LettersFactory lettersFactory;
     private int lastSecond, chrono, score;
+    private AudioNode gameStart;
+    private AudioNode pointGain;
+    private AudioNode pointLost;
+    private AudioNode gameLoopAudio;
+    private AudioNode winGame;
+    private AudioNode looseGame;
+    private AudioNode winLoopAudio;
+    private AudioNode looseLoopAudio;
 
     public GameFindWord(String profileName, int level) {
         constructorInit(profileName, level);
@@ -75,14 +85,55 @@ public class GameFindWord extends GameLifeCycle implements LettersListener {
         super.init(app);
         intPhysic();
         initGameScene();
+        initSound();
         //Reset du timer
         app.getTimer().reset();
         //Suscription à l'observer des evenements de l'interface graphique Nifty
         app.getNifty().subscribeAnnotations(this);
         //Inisialisation de la cinématique de début de jeux
         app.getNifty().gotoScreen("PreGame");
+        app.getAudioRenderer().playSource(gameLoopAudio);
         //Passage en mode cinématique
         state = GameState.CINEMATIC;
+    }
+
+    private void initSound() {
+        gameLoopAudio = new AudioNode(app.getAssetManager(), "sounds/music/gameplayback.wav");
+        gameLoopAudio.setLooping(true);
+        gameLoopAudio.setPositional(false);
+
+        winLoopAudio = new AudioNode(app.getAssetManager(), "sounds/music/winmusic.wav");
+        winLoopAudio.setLooping(true);
+        winLoopAudio.setPositional(false);
+
+        looseLoopAudio = new AudioNode(app.getAssetManager(), "sounds/music/loosemusic.wav");
+        looseLoopAudio.setLooping(true);
+        looseLoopAudio.setPositional(false);
+
+        gameStart = new AudioNode(app.getAssetManager(), "sounds/effect/startgame.wav");
+        gameStart.setLooping(false);
+        gameStart.setPositional(false);
+        gameStart.setVolume(0.5f);
+
+        pointGain = new AudioNode(app.getAssetManager(), "sounds/effect/pointgain.wav");
+        pointGain.setLooping(false);
+        pointGain.setPositional(false);
+        pointGain.setVolume(0.5f);
+
+        pointLost = new AudioNode(app.getAssetManager(), "sounds/effect/pointlost.wav");
+        pointLost.setLooping(false);
+        pointLost.setPositional(false);
+        pointLost.setVolume(4f);
+
+        winGame = new AudioNode(app.getAssetManager(), "sounds/effect/wingame.wav");
+        winGame.setLooping(false);
+        winGame.setPositional(false);
+        winGame.setVolume(2);
+
+        looseGame = new AudioNode(app.getAssetManager(), "sounds/effect/loosegame.wav");
+        looseGame.setLooping(false);
+        looseGame.setPositional(false);
+        looseGame.setVolume(2);
     }
 
     /**
@@ -127,6 +178,14 @@ public class GameFindWord extends GameLifeCycle implements LettersListener {
                     save();
                     //on affiche le menu de fin de jeux
                     app.getNifty().gotoScreen("EndGame");
+                    gameLoopAudio.stop();
+                    if(partie.getTrouve()!=100){
+                        app.getAudioRenderer().playSource(looseGame);
+                        app.getAudioRenderer().playSource(looseLoopAudio);
+                    }else{
+                        app.getAudioRenderer().playSource(winGame);
+                        app.getAudioRenderer().playSource(winLoopAudio);
+                    }
                 }
 
                 //Quoi qu'il arrive tant qu'on est en mode jeu on met à jour le HUD et le score dans partie
@@ -152,6 +211,16 @@ public class GameFindWord extends GameLifeCycle implements LettersListener {
         //Suprime tous les élément de la scène et de la physique
         app.getRootNode().detachAllChildren();
         app.getStateManager().detach(getBulletAppState());
+
+        //arret de toutes les music
+        app.getAudioRenderer().stopSource(gameStart);
+        app.getAudioRenderer().stopSource(pointGain);
+        app.getAudioRenderer().stopSource(pointLost);
+        app.getAudioRenderer().stopSource(gameLoopAudio);
+        app.getAudioRenderer().stopSource(winGame);
+        app.getAudioRenderer().stopSource(looseGame);
+        app.getAudioRenderer().stopSource(winLoopAudio);
+        app.getAudioRenderer().stopSource(looseLoopAudio);
 
         //On réinitialise le background de la scène
         app.getViewPort().setBackgroundColor(new ColorRGBA(0.7f, 0.8f, 1f, 1f));
@@ -188,6 +257,7 @@ public class GameFindWord extends GameLifeCycle implements LettersListener {
         //Chaque scene de cinématique est une seconde et correspond à un écran
         if (chrono == 2 && chrono != lastSecond) {
             app.getNifty().gotoScreen("PreGame1");
+            app.getAudioRenderer().playSource(gameStart);
         } else if (chrono == 3 && chrono != lastSecond) {
             app.getNifty().gotoScreen("PreGame2");
         } else if (chrono == 4 && chrono != lastSecond) {
@@ -286,14 +356,18 @@ public class GameFindWord extends GameLifeCycle implements LettersListener {
                 //et on incrémente le score
                 letterFound.add(lettrePlot.getWordPosition());
                 score += 100;
+                app.getAudioRenderer().playSource(pointGain);
             } else {
                 //Sinon on décrémente le score
                 score -= 10;
+                app.getAudioRenderer().playSource(pointLost);
             }
         } else {
             //Si la lettre qui à touché le plot ne correspond pas à la lettre attendue
             //on décrémente le score
             score -= 5;
+            app.getAudioRenderer().playSource(pointLost);
+
             //On regarde si son index n'est pas déjà dans les lettres trouvées
             if (letterFound.contains(lettrePlot.getWordPosition())) {
                 //Si oui on la retire de la liste

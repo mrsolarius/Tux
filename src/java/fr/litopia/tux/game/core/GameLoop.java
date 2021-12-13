@@ -2,6 +2,7 @@ package fr.litopia.tux.game.core;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.plugins.FileLocator;
+import com.jme3.audio.AudioNode;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.NiftyEventSubscriber;
@@ -21,6 +22,7 @@ public class GameLoop extends SimpleApplication {
     private GameState state;
     private GameFindWord game;
     public static Profil profil;
+    private AudioNode music;
 
     /**
      * Initialisation de l'application
@@ -38,6 +40,10 @@ public class GameLoop extends SimpleApplication {
         assetManager.registerLocator(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" , FileLocator.class);
         //Initialisation des menus Nifty
         initNifty();
+        //Récupération de la music de menu
+        music = new AudioNode(assetManager, "sounds/music/minecraftmusicmenu.wav");
+        music.setLooping(true);
+        getAudioRenderer().playSource(music);
         //Fin de l'initialisation passage au statut menu
         state = MENU;
     }
@@ -129,6 +135,8 @@ public class GameLoop extends SimpleApplication {
     private void initGame(){
         //Game peut être null si on a pas de nom de joueur donc on verifie qu'il à bien été créé
         if(game!=null){
+            //On arrête la musique de menu
+            getAudioRenderer().stopSource(music);
             //On met à jour l'écran du jeu
             nifty.gotoScreen("Game");
             //On initialise le jeu
@@ -149,6 +157,8 @@ public class GameLoop extends SimpleApplication {
         game = null;
         //On revient au menu
         nifty.gotoScreen("MainMenu");
+        //On lance la musique de menu
+        getAudioRenderer().playSource(music);
         //on affiche le curseur pour le voir apparaitre sur les menus
         inputManager.setCursorVisible(true);
     }

@@ -5,6 +5,7 @@
  */
 package fr.litopia.tux.game.objects.movable;
 
+import com.jme3.audio.AudioNode;
 import com.jme3.bullet.control.BetterCharacterControl;
 import com.jme3.input.ChaseCamera;
 import com.jme3.input.KeyInput;
@@ -38,6 +39,8 @@ public class Tux implements ActionListener {
     private final float speed;
     private final float strafeSpeed;
     private final float runMultiplier;
+
+    private final AudioNode jump;
 
     public Tux(GameFindWord context) {
         // Definition de la vitesses de deplacement
@@ -83,6 +86,12 @@ public class Tux implements ActionListener {
         chaseCam.setMinVerticalRotation(0);
         chaseCam.setSmoothMotion(true);
         chaseCam.setTrailingEnabled(true);
+
+        //On ajout le son de saut
+        jump = new AudioNode(context.getAssetManager(), "sounds/effect/jump.wav");
+        jump.setPositional(false);
+        jump.setLooping(false);
+        jump.setVolume(0.2f);
 
         // On met en place les event listener
         setUpKeys();
@@ -131,6 +140,7 @@ public class Tux implements ActionListener {
             case "Jump":
                 //Si on appuie sur Espace on saute is pressed
                 if (isPressed) {
+                    jump.play();
                     tux.jump();
                 }
                 break;
