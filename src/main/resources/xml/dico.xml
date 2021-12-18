@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dictionnaire xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://myGame/tux" xsi:schemaLocation="http://myGame/tux ../xsd/dico.xsd">
+    <mot niveau="1">eau</mot>
+    
+    <mot niveau="2">Fils</mot>
+    
+    <mot niveau="1">carré</mot>
+    
+    <mot niveau="2">idole</mot>
+    
+    <mot niveau="1">jaune</mot>
+    
+    <mot niveau="1">Patate</mot>
+    
+    <mot niveau="4">azurin</mot>
+    
+    <mot niveau="1">Camion</mot>
+    
+    <mot niveau="2">Enfant</mot>
+    
+    <mot niveau="1">cheval</mot>
+    
+    <mot niveau="1">doudou</mot>
+    
+    <mot niveau="2">chambre</mot>
+    
+    <mot niveau="4">oxygène</mot>
+    
+    <mot niveau="5">pyroïde</mot>
+    
+    <mot niveau="3">placebo</mot>
+    
+    <mot niveau="3">chamois</mot>
+    
+    <mot niveau="2">Système</mot>
+    
+    <mot niveau="4">diligent</mot>
+    
+    <mot niveau="4">nidoreux</mot>
+    
+    <mot niveau="2">Montagne</mot>
+    
+    <mot niveau="3">Butineur</mot>
+        
+    <mot niveau="5">apocryphe</mot>
+    
+    <mot niveau="5">coruscant</mot>
+    
+    <mot niveau="3">Ordiphone</mot>
+    
+    <mot niveau="4">antilogie</mot>
+    
+    <mot niveau="3">casserole</mot>
+    
+    <mot niveau="2">Processus</mot>
+    
+    <mot niveau="5">holographe</mot>
+    
+    <mot niveau="3">langoustine</mot>
+
+    <mot niveau="3">photographie</mot>
+    
+    <mot niveau="5">vitupération</mot>
+    
+    <mot niveau="5">pusillanisme</mot>
+    
+    <mot niveau="4">Kaléidoscope</mot>
+    
+    <mot niveau="4">septentrional</mot>
+
+    <mot niveau="5">boustrophédon</mot>
+</dictionnaire>

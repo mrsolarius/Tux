@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<profil>
+                
+    
+    
+    <nom>Solarius</nom>
+                
+    
+    
+    <anniversaire>1999-10-25</anniversaire>
+                
+    
+    
+    <avatar>avatar</avatar>
+                
+    
+    
+    <parties>
+                        
+        
+        <partie date="2021-12-19">
+                                    
+            
+            <temps>56.0</temps>
+                                    
+            
+            <mot niveau="2">Enfant</mot>
+                                    
+            
+            <score>600</score>
+                                
+        
+        </partie>
+                    
+        
+        <partie date="2021-12-19">
+                        
+            <temps>48.0</temps>
+                        
+            <mot niveau="2">Fils</mot>
+                        
+            <score>400</score>
+                    
+        </partie>
+            
+        <partie date="2021-12-19">
+            <temps>77.0</temps>
+            <mot niveau="2">chambre</mot>
+            <score>680</score>
+        </partie>
+    </parties>
+            
+
+
+</profil>

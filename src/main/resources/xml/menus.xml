@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nifty xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://nifty-gui.lessvoid.com/nifty-gui"
+       xsi:schemaLocation="http://nifty-gui.lessvoid.com/nifty-gui ../xsd/nifty.xsd">
+    <useStyles filename="nifty-default-styles.xml"/>
+    <useControls filename="nifty-default-controls.xml"/>
+    <screen id="MainMenu" controller="fr.litopia.tux.game.gui.menu.MainMenu">
+        <layer id="background" childLayout="center">
+            <image filename="Textures/MainMenu.png"/>
+        </layer>
+        <layer id="foreground" childLayout="vertical">
+            <panel id="startPanel" childLayout="horizontal" height="50%" width="100%">
+            </panel>
+            <panel id="panel_bottom" height="20%" width="62%" align="center" valign="center"
+                   childLayout="vertical">
+                <effect>
+                    <onStartScreen name="move" mode="in" direction="bottom" length="300" startDelay="0"
+                                   inherit="true"/>
+                    <onEndScreen name="move" mode="out" direction="bottom" length="300" startDelay="0" inherit="true"/>
+                </effect>
+                <panel id="panel_bottom_left" height="50%" width="50%" valign="center"
+                       childLayout="center">
+                    <control name="button" label="Démarrer" id="StartButton" align="center"
+                             valign="center" height="50px" width="400px">
+                        <interact onClick="startGame()"/>
+                    </control>
+                </panel>
+                <panel id="panel_bottom_right" height="50%" width="50%" valign="center"
+                       childLayout="center">
+                    <control name="button" label="HeightScore" align="center"
+                             valign="center" height="50px" width="400px" focusable="false"/>
+                </panel>
+                <panel id="panel_bottom_right" height="50%" width="50%" valign="center"
+                       childLayout="center">
+                    <control name="button" label="Quitter" id="QuitButton" align="center"
+                             valign="center" height="50px" width="400px">
+                        <interact onClick="quit()"/>
+                    </control>
+                </panel>
+            </panel>
+        </layer>
+    </screen>
+    <screen id="ProfileMenu" controller="fr.litopia.tux.game.gui.menu.ProfileMenu">
+        <layer id="background" childLayout="center">
+            <image filename="Textures/MainMenu.png"/>
+        </layer>
+        <layer id="foreground" childLayout="vertical">
+            <panel id="profilePanel" childLayout="horizontal" height="50%" width="100%">
+            </panel>
+            <panel id="panel_bottom" height="20%" width="62%" align="center" valign="center"
+                   childLayout="vertical">
+                <effect>
+                    <onStartScreen name="move" mode="in" direction="bottom" length="300" startDelay="0"
+                                   inherit="true"/>
+                    <onEndScreen name="move" mode="out" direction="bottom" length="300" startDelay="0" inherit="true"/>
+                </effect>
+                <panel id="panel_bottom_right" height="50%" width="50%" valign="center"
+                       childLayout="center">
+                    <control name="button" label="Charger un profile" id="LoadProfile" align="center"
+                             valign="center" height="50px" width="400px">
+                        <interact onClick="loadPlayer()"/>
+                    </control>
+                </panel>
+                <panel id="panel_bottom_left" height="50%" width="50%" valign="center"
+                       childLayout="center">
+                    <control name="button" label="Crée votre profile" id="CreateProfile" align="center"
+                             valign="center" height="50px" width="400px">
+                        <interact onClick="newPlayer()"/>
+                    </control>
+                </panel>
+                <panel id="panel_bottom_right" height="50%" width="50%" valign="center"
+                       childLayout="center">
+                    <control name="button" label="Retour" id="Back" align="center"
+                             valign="center" height="50px" width="400px">
+                        <interact onClick="back()"/>
+                    </control>
+                </panel>
+            </panel>
+        </layer>
+    </screen>
+    <screen id="NewPlayer" controller="fr.litopia.tux.game.gui.menu.NewPlayerMenu">
+        <layer id="background" childLayout="center">
+            <image filename="Textures/MainMenu.png"/>
+        </layer>
+        <layer id="newPlayer_container" childLayout="center">
+            <effect>
+                <onStartScreen name="move" mode="in" direction="bottom" length="300" startDelay="0"
+                               inherit="true"/>
+                <onEndScreen name="move" mode="out" direction="bottom" length="300" startDelay="0" inherit="true"/>
+            </effect>
+            <panel id="panel_bottom_right" height="40%" width="50%" valign="center"
+                   childLayout="vertical" style="nifty-panel">
+                <text name="label" text="Nouveau joueur" id="labelNewPlayer" align="center"
+                      valign="center" height="20%" width="100%" color="#ffff" style='nifty-label'/>
+                <panel height="20%" width="100%" valign="center"
+                       childLayout="center">
+                    <control name="textfield" id="playerNewField" align="center" text="Pseudonyme"
+                             valign="center" height="40px" width="400px">
+                    </control>
+                </panel>
+                <panel height="20%" width="400px" valign="center" align="center"
+                       childLayout="horizontal">
+                    <panel valign="bottom" align="left"
+                           childLayout="center">
+                        <control name="button" label="Annuler" id="buttonNewPlayer" align="center"
+                                 valign="center" height="50px" width="200px">
+                            <interact onClick="back()"/>
+                        </control>
+                    </panel>
+                    <panel valign="bottom" align="right"
+                           childLayout="center">
+                        <control name="button" label="Valider et Jouer" id="NewPlayerButton" align="center"
+                                 valign="center" height="50px" width="200px">
+                            <interact onClick="createNewPlayer()"/>
+                        </control>
+                    </panel>
+                </panel>
+            </panel>
+        </layer>
+    </screen>
+    <screen id="LoadPlayer" controller="fr.litopia.tux.game.gui.menu.LoadPlayerMenu">
+        <layer id="background" childLayout="center">
+            <image filename="Textures/MainMenu.png"/>
+        </layer>
+        <layer id="LoadPlayer_container" childLayout="center">
+            <effect>
+                <onStartScreen name="move" mode="in" direction="bottom" length="300" startDelay="0"
+                               inherit="true"/>
+                <onEndScreen name="move" mode="out" direction="bottom" length="300" startDelay="0" inherit="true"/>
+            </effect>
+            <panel id="panel_bottom_right" height="40%" width="50%" valign="center"
+                   childLayout="vertical" style="nifty-panel">
+                <text name="label" text="Joueur Existant" id="labelLoadPlayer" align="center"
+                      valign="center" height="20%" width="100%" color="#ffff" style='nifty-label'/>
+                <panel height="20%" valign="center" align="center"
+                       childLayout="horizontal">
+                    <panel valign="center" align="left"
+                           childLayout="horizontal">
+                        <control name="button" id="prevButton" label="&lt;" align="center" height="40px" width="40px">
+                            <interact onClick="prevName()"/>
+                        </control>
+                    </panel>
+                    <panel valign="center" align="center"
+                           childLayout="horizontal">
+                        <control name="textfield" id="playerLoadField" align="center" text="Player1"
+                                 valign="center" height="40px" width="400px" enable="false"/>
+                    </panel>
+                    <panel valign="center" align="right"
+                           childLayout="horizontal">
+                        <control name="button" id="nextButton" height="40px" width="40px" align="center" label="&gt;">
+                            <interact onClick="nextName()"/>
+                        </control>
+                    </panel>
+                </panel>
+                <panel height="20%" width="100%" valign="center"
+                       childLayout="horizontal">
+                    <panel width="50%" valign="bottom" align="left"
+                           childLayout="center">
+                        <control name="button" label="Annuler" id="buttonNewPlayer" align="center"
+                                 valign="center" height="50px" width="200px">
+                            <interact onClick="back()"/>
+                        </control>
+                    </panel>
+                    <panel height="100%" width="50%" valign="bottom" align="right"
+                           childLayout="center">
+                        <control name="button" label="Valider et Jouer" id="LoadPlayerButton" align="center"
+                                 valign="center" height="50px" width="200px">
+                            <interact onClick="loadPlayer()"/>
+                        </control>
+                    </panel>
+                </panel>
+            </panel>
+        </layer>
+    </screen>
+    <screen id="ChooseLevel" controller="fr.litopia.tux.game.gui.menu.ChooseLevelMenu">
+        <layer id="background" childLayout="center">
+            <image filename="Textures/MainMenu.png"/>
+        </layer>
+        <layer id="LoadPlayer_container" childLayout="center">
+            <effect>
+                <onStartScreen name="move" mode="in" direction="bottom" length="300" startDelay="0"
+                               inherit="true"/>
+                <onEndScreen name="move" mode="out" direction="bottom" length="300" startDelay="0" inherit="true"/>
+            </effect>
+            <panel id="panel_bottom_right" height="40%" width="50%" valign="center"
+                   childLayout="vertical" style="nifty-panel">
+                <control name="label" text="Joeur - Date naissence" id="labelLoadPlayer" align="center"
+                         valign="center" height="20%" width="100%" color="#ffff" style='nifty-label'/>
+                <panel height="20%" valign="center" align="center"
+                       childLayout="horizontal">
+                    <panel valign="center" align="left"
+                           childLayout="horizontal">
+                        <control name="button" id="prevButton" label="&lt;" align="center" height="40px" width="40px">
+                            <interact onClick="prevName()"/>
+                        </control>
+                    </panel>
+                    <panel valign="center" align="center"
+                           childLayout="horizontal">
+                        <control name="textfield" id="playerLoadField" align="center" text="Player1"
+                                 valign="center" height="40px" width="400px" enable="false"/>
+                    </panel>
+                    <panel valign="center" align="right"
+                           childLayout="horizontal">
+                        <control name="button" id="nextButton" height="40px" width="40px" align="center" label="&gt;">
+                            <interact onClick="nextName()"/>
+                        </control>
+                    </panel>
+                </panel>
+                <panel height="20%" width="100%" valign="center"
+                       childLayout="horizontal">
+                    <panel height="100%" width="100%" valign="bottom" align="right"
+                           childLayout="center">
+                        <control name="button" label="Jouer" id="playButton" align="center"
+                                 valign="center" height="50px" width="200px"/>
+                    </panel>
+                </panel>
+            </panel>
+        </layer>
+    </screen>
+    <screen id="PreGame">
+        <layer/>
+    </screen>
+    <screen id="PreGame1">
+        <layer id="transparentBack" align="center" childLayout="center">
+            <effect>
+                <onStartScreen name="move" mode="in" direction="bottom" length="150" startDelay="0"
+                               inherit="true"/>
+                <onEndScreen name="move" mode="out" direction="bottom" length="150" startDelay="0" inherit="true"/>
+            </effect>
+            <control id="PreloaderTxt" name="label" text="5"
+                     font="fonts/ethnocentric_rg_200_blue/ethnocentric_rg_200_blue.fnt" textLineHeight="200">
+            </control>
+        </layer>
+    </screen>
+    <screen id="PreGame2">
+        <layer id="transparentBack" align="center" childLayout="center">
+            <effect>
+                <onStartScreen name="move" mode="in" direction="bottom" length="150" startDelay="0"
+                               inherit="true"/>
+                <onEndScreen name="move" mode="out" direction="bottom" length="150" startDelay="0" inherit="true"/>
+            </effect>
+            <control id="PreloaderTxt" name="label" text="4"
+                     font="fonts/ethnocentric_rg_200_blue/ethnocentric_rg_200_blue.fnt" textLineHeight="200">
+            </control>
+        </layer>
+    </screen>
+    <screen id="PreGame3">
+        <layer id="transparentBack" align="center" childLayout="center">
+            <effect>
+                <onStartScreen name="move" mode="in" direction="bottom" length="150" startDelay="0"
+                               inherit="true"/>
+                <onEndScreen name="move" mode="out" direction="bottom" length="150" startDelay="0" inherit="true"/>
+            </effect>
+            <control id="PreloaderTxt" name="label" text="3"
+                     font="fonts/ethnocentric_rg_200_blue/ethnocentric_rg_200_blue.fnt" textLineHeight="200">
+            </control>
+        </layer>
+    </screen>
+    <screen id="PreGame4">
+        <layer id="transparentBack" align="center" childLayout="center">
+            <effect>
+                <onStartScreen name="move" mode="in" direction="bottom" length="150" startDelay="0"
+                               inherit="true"/>
+                <onEndScreen name="move" mode="out" direction="bottom" length="150" startDelay="0" inherit="true"/>
+            </effect>
+            <control id="PreloaderTxt" name="label" text="2"
+                     font="fonts/ethnocentric_rg_200_blue/ethnocentric_rg_200_blue.fnt" textLineHeight="200">
+            </control>
+        </layer>
+    </screen>
+    <screen id="PreGame5">
+        <layer id="transparentBack" align="center" childLayout="center">
+            <effect>
+                <onStartScreen name="move" mode="in" direction="bottom" length="150" startDelay="0"
+                               inherit="true"/>
+                <onEndScreen name="move" mode="out" direction="bottom" length="150" startDelay="0" inherit="true"/>
+            </effect>
+            <control id="PreloaderTxt" name="label" text="1"
+                     font="fonts/ethnocentric_rg_200_blue/ethnocentric_rg_200_blue.fnt" textLineHeight="200">
+            </control>
+        </layer>
+    </screen>
+    <screen id="PreGame6" controller="fr.litopia.tux.game.gui.hud.PreGame">
+        <layer id="transparentBack" align="center" childLayout="center">
+            <effect>
+                <onStartScreen name="move" mode="in" direction="bottom" length="150" startDelay="0"
+                               inherit="true"/>
+                <onEndScreen name="move" mode="out" direction="bottom" length="150" startDelay="0" inherit="true"/>
+            </effect>
+            <panel childLayout="vertical" align="center" width="100%">
+                <control id="PreloaderTxt" name="label" text="Votre mot est"
+                         font="fonts/ethnocentric_80_blue/ethnocentric_rg_80_blue.fnt" textLineHeight="80"
+                         height="80" textHAlign="center">
+                </control>
+                <control id="PreloaderWord" name="label" text="leMot"
+                         font="fonts/ethnocentric_rg_200_blue/ethnocentric_rg_200_blue.fnt" width="1920"
+                         textHAlign="center" height="600" valign="center">
+                </control>
+            </panel>
+        </layer>
+    </screen>
+    <screen id="HUD" controller="fr.litopia.tux.game.gui.hud.HUD">
+        <layer id="transparentBack" align="center" childLayout="horizontal">
+            <effect>
+                <onStartScreen name="fade" start="#0" end="#f" length="1000"/>
+                <onEndScreen name="fade" start="#f" end="#0" length="1000" />
+            </effect>
+                <panel width="33%" childLayout="center">
+                    <control id="HUD_Score" name="label" text="Score : 0"
+                             font="fonts/ethnocentric_32/ethnocentric_rg_32.fnt" textLineHeight="32"
+                             height="200" textHAlign="left" valign="top" width="100%">
+                    </control>
+                </panel>
+                <panel width="33%" childLayout="center">
+                    <control id="HUD_Time" name="label" text="Time : 0"
+                             font="fonts/ethnocentric_32/ethnocentric_rg_32.fnt" textLineHeight="32"
+                             height="200" textHAlign="center"  valign="top" width="100%">
+                    </control>
+                </panel>
+                <panel width="33%" childLayout="center">
+                    <control id="HUD_Percent" name="label" text="Found : 0%"
+                             font="fonts/ethnocentric_32/ethnocentric_rg_32.fnt" textLineHeight="32"
+                             height="200" textHAlign="right"  valign="top" width="100%">
+                    </control>
+                </panel>
+        </layer>
+    </screen>
+    <screen id="EndGame" controller="fr.litopia.tux.game.gui.hud.EndGame">
+        <layer align="center" childLayout="center">
+            <effect>
+                <onStartScreen name="move" mode="in" direction="bottom" length="150" startDelay="0"
+                               inherit="true"/>
+                <onEndScreen name="move" mode="out" direction="bottom" length="150" startDelay="0" inherit="true"/>
+            </effect>
+            <panel width="1200px" height="60%" style="nifty-panel" childLayout="vertical">
+                <panel childLayout="vertical" align="center" height="80%">
+                    <control id="EndGameMessage" name="label" text="Perdu !"
+                             font="fonts/ethnocentric_rg_200_blue/ethnocentric_rg_200_blue.fnt" textLineHeight="200"
+                             height="200"/>
+                    <control id="EndGameScore" name="label" text="Score : 0"
+                             font="fonts/ethnocentric_rg_80_white/ethnocentric_rg_80_white.fnt" textLineHeight="80"
+                             width="100%"/>
+                    <control id="EndGameTemp" name="label" text="Temps : 0sec"
+                             font="fonts/ethnocentric_rg_80_white/ethnocentric_rg_80_white.fnt" textLineHeight="80"
+                             width="100%"/>
+                    <control/>
+                </panel>
+                <panel childLayout="horizontal" align="center" height="20%" valign="bottom">
+                    <control id="EndGameButtonReplay" name="button" label="Rejouer" height="50px" width="100px"/>
+                    <control id="EndGameButtonEnd" name="button" label="Quitter" height="50px" width="100px"/>
+                </panel>
+            </panel>
+        </layer>
+    </screen>
+</nifty>

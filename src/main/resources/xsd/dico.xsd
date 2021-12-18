@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<schema version="1.0"
+           xmlns="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://myGame/tux"
+           xmlns:tux="http://myGame/tux"
+           elementFormDefault="qualified">
+    
+    
+    <!-- Element racine dico-->
+    <element name="dictionnaire" type = "tux:Dictionnaire"/>
+    
+    <!-- Complex type dico-->
+    <complexType name="Dictionnaire">
+        <sequence>
+             <!-- On veut avoir auttend de mot que l'on veut -->
+            <element name="mot" type="tux:Mot" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+        
+    <!-- Complex type mot-->
+    <complexType name="Mot">
+        <simpleContent>
+            <extension base="tux:Rule">
+                <attribute name="niveau" type="tux:Niveau" use="required"/>
+            </extension>
+        </simpleContent>
+    </complexType>
+    
+    <!-- Regles de création des mots-->
+    <simpleType name="Rule">
+        <restriction base="string">
+            <pattern value="[\p{L}-]{3,}"/>
+            <maxLength value="20"/>
+        </restriction>
+    </simpleType>
+    
+    <!-- Regles de validation des niveaux -->
+    <simpleType name="Niveau">
+        <restriction base = "int">
+            <minInclusive value="1"/>
+            <maxInclusive value="5"/>
+        </restriction>
+    </simpleType>
+
+</schema>

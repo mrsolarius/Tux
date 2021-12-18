@@ -1,0 +1,57 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'fr.litopia.tux.game'
+version '1.0'
+
+sourceCompatibility = 1.8
+mainClassName = "fr.litopia.tux.game.core.GameLauncher"
+
+repositories {
+    mavenCentral()
+}
+
+project.ext {
+    jmeVer = '3.3.0-stable'
+}
+
+project(":assets") {
+    apply plugin: "java"
+
+    buildDir = rootProject.file("build/assets")
+
+    sourceSets {
+        main {
+            resources {
+                srcDir '.'
+            }
+        }
+    }
+}
+
+dependencies {
+
+    implementation "org.jmonkeyengine:jme3-core:$jmeVer"
+    implementation "org.jmonkeyengine:jme3-desktop:$jmeVer"
+    implementation "org.jmonkeyengine:jme3-lwjgl:$jmeVer"
+    implementation "org.jmonkeyengine:jme3-bullet:$jmeVer"
+    implementation "org.jmonkeyengine:jme3-plugins:$jmeVer"
+    implementation "org.jmonkeyengine:jme3-effects:$jmeVer"
+    implementation "org.jmonkeyengine:jme3-bullet:$jmeVer"
+    implementation "org.jmonkeyengine:jme3-bullet-native:$jmeVer"
+    implementation "org.jmonkeyengine:jme3-lwjgl:$jmeVer"
+    implementation "org.jmonkeyengine:jme3-niftygui:$jmeVer"
+
+    //Totalement déprécié depuis java 8
+    implementation group: 'xerces', name: 'xercesImpl', version: '2.6.2-jaxb-1.0.6'
+    //implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.1'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': "$mainClassName"
+    }
+}
+
